@@ -3,21 +3,15 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Phone, ChevronDown } from 'lucide-react';
+import Image from 'next/image';
+import { Menu, X, Phone } from 'lucide-react';
 
 const navLinks = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Services', href: '/services' },
   { label: 'Portfolio', href: '/portfolio' },
-  {
-    label: 'Pre-Approved Plans',
-    href: '/pre-approved-plans',
-    children: [
-      { label: 'Carlsbad Plans', href: '/pre-approved-plans?city=carlsbad' },
-      { label: 'Vista Plans', href: '/pre-approved-plans?city=vista' },
-    ],
-  },
+  { label: 'Pre-Approved Plans', href: '/pre-approved-plans' },
   { label: 'Blog', href: '/blog' },
   { label: 'Financing', href: '/financing' },
   { label: 'Contact', href: '/contact' },
@@ -26,7 +20,6 @@ const navLinks = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -45,57 +38,30 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 bg-brand-dark-teal rounded-xl flex items-center justify-center group-hover:bg-brand-mid-teal transition-colors duration-300">
-            <span className="text-brand-gold font-display text-lg font-bold">C</span>
-          </div>
-          <div>
-            <span className={`font-display text-xl tracking-tight ${scrolled ? 'text-brand-dark-teal' : 'text-white'}`}>
-              CASITA
-            </span>
-            <span className={`font-display text-xl tracking-tight ${scrolled ? 'text-brand-gold' : 'text-brand-gold'}`}>
-              {' '}ADU
-            </span>
-          </div>
+          <Image
+            src="/images/casita-logo.png"
+            alt="Casita ADU"
+            width={140}
+            height={60}
+            className={`h-12 w-auto transition-all duration-300 ${scrolled ? '' : 'brightness-0 invert'}`}
+            priority
+          />
         </Link>
 
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-1">
           {navLinks.map((link) => (
-            <div
+            <Link
               key={link.label}
-              className="relative"
-              onMouseEnter={() => link.children && setActiveDropdown(link.label)}
-              onMouseLeave={() => setActiveDropdown(null)}
+              href={link.href}
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                scrolled
+                  ? 'text-brand-slate hover:text-brand-dark-teal hover:bg-brand-dark-teal/5'
+                  : 'text-white/90 hover:text-white hover:bg-white/10'
+              }`}
             >
-              <Link
-                href={link.href}
-                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 flex items-center gap-1 ${
-                  scrolled
-                    ? 'text-brand-slate hover:text-brand-dark-teal hover:bg-brand-dark-teal/5'
-                    : 'text-white/90 hover:text-white hover:bg-white/10'
-                }`}
-              >
-                {link.label}
-                {link.children && <ChevronDown className="w-3.5 h-3.5" />}
-              </Link>
-              {link.children && activeDropdown === link.label && (
-                <motion.div
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="absolute top-full left-0 mt-1 bg-white rounded-xl shadow-xl border border-gray-100 py-2 min-w-[200px]"
-                >
-                  {link.children.map((child) => (
-                    <Link
-                      key={child.label}
-                      href={child.href}
-                      className="block px-4 py-2.5 text-sm text-brand-slate hover:bg-brand-cream hover:text-brand-dark-teal transition-colors"
-                    >
-                      {child.label}
-                    </Link>
-                  ))}
-                </motion.div>
-              )}
-            </div>
+              {link.label}
+            </Link>
           ))}
         </nav>
 
