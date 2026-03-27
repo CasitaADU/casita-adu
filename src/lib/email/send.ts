@@ -1,4 +1,4 @@
-import { resend, FROM_EMAIL, ADMIN_EMAIL } from './resend';
+import { getResend, FROM_EMAIL, ADMIN_EMAIL } from './resend';
 import {
   welcomeEmail,
   followUpDay1,
@@ -19,7 +19,7 @@ export async function sendWelcomeSequence(lead: {
   try {
     // 1. Instant welcome email to the lead
     const welcome = welcomeEmail(lead.first_name);
-    await resend.emails.send({
+    await getResend().emails.send({
       from: FROM_EMAIL,
       to: lead.email,
       subject: welcome.subject,
@@ -28,7 +28,7 @@ export async function sendWelcomeSequence(lead: {
 
     // 2. Admin notification
     const adminNotif = adminNewLeadEmail(lead);
-    await resend.emails.send({
+    await getResend().emails.send({
       from: FROM_EMAIL,
       to: ADMIN_EMAIL,
       subject: adminNotif.subject,
@@ -38,7 +38,7 @@ export async function sendWelcomeSequence(lead: {
     // 3. Schedule follow-up emails
     // Day 1 follow-up
     const day1 = followUpDay1(lead.first_name);
-    await resend.emails.send({
+    await getResend().emails.send({
       from: FROM_EMAIL,
       to: lead.email,
       subject: day1.subject,
@@ -48,7 +48,7 @@ export async function sendWelcomeSequence(lead: {
 
     // Day 3 follow-up
     const day3 = followUpDay3(lead.first_name);
-    await resend.emails.send({
+    await getResend().emails.send({
       from: FROM_EMAIL,
       to: lead.email,
       subject: day3.subject,
@@ -58,7 +58,7 @@ export async function sendWelcomeSequence(lead: {
 
     // Day 7 follow-up
     const day7 = followUpDay7(lead.first_name);
-    await resend.emails.send({
+    await getResend().emails.send({
       from: FROM_EMAIL,
       to: lead.email,
       subject: day7.subject,
