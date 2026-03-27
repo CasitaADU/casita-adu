@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
 import { Menu, X, Phone } from 'lucide-react';
 
 const navLinks = [
@@ -37,15 +36,16 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <Image
+        <Link href="/" className="flex items-center gap-2 group">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/images/casita-logo.png"
             alt="Casita ADU"
-            width={140}
-            height={60}
-            className={`h-12 w-auto transition-all duration-300 ${scrolled ? '' : 'brightness-0 invert'}`}
-            priority
+            className={`h-12 w-auto object-contain transition-all duration-300 ${scrolled ? '' : 'brightness-0 invert'}`}
           />
+          <span className={`font-display text-lg tracking-tight transition-colors duration-300 ${scrolled ? 'text-brand-gold' : 'text-brand-gold'}`}>
+            ADU
+          </span>
         </Link>
 
         {/* Desktop Nav */}

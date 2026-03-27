@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { MapPin, Phone, Mail, Instagram, Facebook, ArrowUpRight } from 'lucide-react';
 
 const footerLinks = {
@@ -50,14 +49,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand Column */}
           <div className="lg:col-span-1">
-            <div className="mb-6">
-              <Image
+            <div className="flex items-center gap-2 mb-6">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src="/images/casita-logo.png"
                 alt="Casita ADU"
-                width={140}
-                height={60}
-                className="h-14 w-auto brightness-0 invert"
+                className="h-14 w-auto object-contain brightness-0 invert"
               />
+              <span className="font-display text-xl text-brand-gold">ADU</span>
             </div>
             <p className="text-white/50 text-sm leading-relaxed mb-6">
               California&apos;s only full-service ADU company. From permitting to construction, we handle every detail.
