@@ -119,8 +119,8 @@ export default function Hero() {
               <div className="aspect-[4/5] rounded-3xl border border-white/10 overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="https://jahmbtbandibcvfqgnlf.supabase.co/storage/v1/object/public/images/portfolio/750%20SQFT%20DETACHED%20ADU%20COMPLETED%20FRONT%20BUILDING.jpg"
-                  alt="Completed 750 sq ft detached ADU by Casita"
+                  src="https://jahmbtbandibcvfqgnlf.supabase.co/storage/v1/object/public/images/portfolio/749%20SQFT%20DETACHED%20ADU%20COMPLETED%20AERIAL.jpg"
+                  alt="Completed 749 sq ft detached ADU by Casita — aerial view"
                   className="w-full h-full object-cover"
                 />
               </div>
