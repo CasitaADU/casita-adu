@@ -4,14 +4,14 @@ import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Casita ADU | California\'s Full-Service ADU Company',
+    default: 'Casita ADU | California\'s Premier Construction Management Agency',
     template: '%s | Casita ADU',
   },
   description:
     'From permitting and design to construction and final walkthroughs, Casita ADU handles every detail of your ADU journey in San Diego and Southern California.',
   keywords: ['ADU', 'accessory dwelling unit', 'San Diego', 'California', 'construction', 'permitting', 'design'],
   openGraph: {
-    title: 'Casita ADU | California\'s Full-Service ADU Company',
+    title: 'Casita ADU | California\'s Premier Construction Management Agency',
     description: 'Your Casita Concierge — guiding you through every step of your ADU journey.',
     url: 'https://casitaadu.com',
     siteName: 'Casita ADU',

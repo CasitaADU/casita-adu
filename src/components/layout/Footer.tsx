@@ -59,7 +59,7 @@ export default function Footer() {
               <span className="font-display text-xl text-brand-gold">ADU</span>
             </div>
             <p className="text-white/50 text-sm leading-relaxed mb-6">
-              California&apos;s only full-service ADU company. From permitting to construction, we handle every detail.
+              California&apos;s premier construction management agency. From permitting to construction, we handle every detail.
             </p>
             <div className="space-y-3">
               <a href="tel:6198912065" className="flex items-center gap-3 text-sm text-white/70 hover:text-brand-gold transition-colors">

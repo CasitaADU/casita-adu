@@ -14,7 +14,7 @@ export default function ServicesPage() {
         <section className="bg-brand-dark-teal pt-32 pb-20 px-6 text-center">
           <span className="text-brand-gold font-semibold text-sm uppercase tracking-widest">What We Offer</span>
           <h1 className="font-display text-5xl md:text-6xl text-white mt-4 mb-6">Our <span className="text-brand-gold italic">Services</span></h1>
-          <p className="text-white/50 text-lg max-w-2xl mx-auto">Full-service ADU development from permitting to completion.</p>
+          <p className="text-white/50 text-lg max-w-2xl mx-auto">Full-service construction management from permitting to completion.</p>
         </section>
         <Services />
         <Process />

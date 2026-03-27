@@ -46,7 +46,7 @@ export default function Hero() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-gold/10 border border-brand-gold/20 mb-8"
             >
               <div className="w-2 h-2 rounded-full bg-brand-gold animate-pulse" />
-              <span className="text-brand-gold text-sm font-medium">San Diego&apos;s Premier ADU Builder</span>
+              <span className="text-brand-gold text-sm font-medium">California&apos;s Premier Construction Management Agency</span>
             </motion.div>
 
             <motion.h1
@@ -55,9 +55,8 @@ export default function Hero() {
               transition={{ delay: 0.3 }}
               className="font-display text-5xl md:text-6xl lg:text-7xl text-white leading-[1.1] mb-6"
             >
-              California&apos;s Only{' '}
-              <span className="text-brand-gold italic">Full Service</span>{' '}
-              ADU Company
+              Full Service{' '}
+              <span className="text-brand-gold italic">Construction Management</span>
             </motion.h1>
 
             <motion.p
