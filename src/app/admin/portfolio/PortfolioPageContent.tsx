@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Plus, Pencil, Trash2, Star, MapPin, X } from 'lucide-react';
 import toast from 'react-hot-toast';
+import ImageUpload from '@/components/admin/ImageUpload';
 import type { PortfolioProject } from '@/types';
 
 const emptyProject: Partial<PortfolioProject> = {
@@ -110,7 +111,19 @@ export default function AdminPortfolio() {
                   </select>
                 </div>
               </div>
-              <div><label className="label">Cover Image URL</label><input className="input-field" value={editing.cover_image || ''} onChange={e => setEditing(p => p && ({ ...p, cover_image: e.target.value }))} placeholder="https://..." /></div>
+              <ImageUpload
+                label="Cover Image"
+                folder="portfolio"
+                value={editing.cover_image || ''}
+                onChange={(url) => setEditing(p => p && ({ ...p, cover_image: url as string }))}
+              />
+              <ImageUpload
+                label="Gallery Images"
+                folder="portfolio"
+                multiple
+                value={editing.images || []}
+                onChange={(urls) => setEditing(p => p && ({ ...p, images: urls as string[] }))}
+              />
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" checked={editing.featured || false} onChange={e => setEditing(p => p && ({ ...p, featured: e.target.checked }))} className="w-4 h-4 rounded border-gray-300 text-brand-mid-teal focus:ring-brand-mid-teal" />
                 <span className="text-sm text-brand-slate">Featured Project</span>

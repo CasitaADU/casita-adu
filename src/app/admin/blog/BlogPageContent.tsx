@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Plus, Pencil, Trash2, Eye, EyeOff, X } from 'lucide-react';
 import toast from 'react-hot-toast';
+import ImageUpload from '@/components/admin/ImageUpload';
 import type { BlogPost } from '@/types';
 
 export default function AdminBlog() {
@@ -89,7 +90,12 @@ export default function AdminBlog() {
               <div><label className="label">Excerpt</label><textarea rows={2} className="input-field resize-none" value={editing.excerpt || ''} onChange={e => setEditing(p => p && ({ ...p, excerpt: e.target.value }))} /></div>
               <div><label className="label">Content (Markdown supported)</label><textarea rows={12} className="input-field resize-none font-mono text-sm" value={editing.content || ''} onChange={e => setEditing(p => p && ({ ...p, content: e.target.value }))} /></div>
               <div className="grid grid-cols-2 gap-4">
-                <div><label className="label">Cover Image URL</label><input className="input-field" value={editing.cover_image || ''} onChange={e => setEditing(p => p && ({ ...p, cover_image: e.target.value }))} /></div>
+                <ImageUpload
+                  label="Cover Image"
+                  folder="blog"
+                  value={editing.cover_image || ''}
+                  onChange={(url) => setEditing(p => p && ({ ...p, cover_image: url as string }))}
+                />
                 <div><label className="label">Author</label><input className="input-field" value={editing.author || ''} onChange={e => setEditing(p => p && ({ ...p, author: e.target.value }))} /></div>
               </div>
               <div><label className="label">Tags (comma separated)</label><input className="input-field" value={Array.isArray(editing.tags) ? editing.tags.join(', ') : editing.tags || ''} onChange={e => setEditing(p => p && ({ ...p, tags: e.target.value as any }))} /></div>
