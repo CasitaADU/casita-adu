@@ -16,14 +16,24 @@ const navLinks = [
   { label: 'Contact', href: '/contact' },
 ];
 
+const rotatingWords = ['ADU', 'Home', 'Construction Management'];
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [wordIndex, setWordIndex] = useState(0);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handler);
     return () => window.removeEventListener('scroll', handler);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWordIndex((prev) => (prev + 1) % rotatingWords.length);
+    }, 2500);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -36,13 +46,32 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center group">
+        <Link href="/" className="flex items-center gap-2 group">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/casita-logo.png"
             alt="Casita"
             className={`h-12 w-auto object-contain transition-all duration-300 ${scrolled ? '' : 'brightness-0 invert'}`}
           />
+          <div className="flex items-baseline gap-2 overflow-hidden">
+            <span className={`font-display text-xl tracking-tight transition-colors duration-300 ${scrolled ? 'text-brand-dark-teal' : 'text-white'}`}>
+              CASITA
+            </span>
+            <div className="relative h-6 overflow-hidden" style={{ minWidth: '10rem' }}>
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={rotatingWords[wordIndex]}
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -20, opacity: 0 }}
+                  transition={{ duration: 0.4, ease: 'easeInOut' }}
+                  className="absolute left-0 font-display text-lg text-brand-gold whitespace-nowrap"
+                >
+                  {rotatingWords[wordIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </div>
+          </div>
         </Link>
 
         {/* Desktop Nav */}
