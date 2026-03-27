@@ -115,17 +115,14 @@ export default function Hero() {
             className="hidden lg:block relative"
           >
             <div className="relative">
-              {/* Main image placeholder */}
-              <div className="aspect-[4/5] rounded-3xl bg-gradient-to-br from-brand-mid-teal/30 to-brand-dark-teal/50 border border-white/10 overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center text-white/30">
-                    <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-white/10 flex items-center justify-center">
-                      <span className="font-display text-3xl text-brand-gold">C</span>
-                    </div>
-                    <p className="text-sm">Hero Image</p>
-                    <p className="text-xs mt-1">Replace with ADU photo</p>
-                  </div>
-                </div>
+              {/* Main image — completed 750 sqft ADU */}
+              <div className="aspect-[4/5] rounded-3xl border border-white/10 overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://jahmbtbandibcvfqgnlf.supabase.co/storage/v1/object/public/images/portfolio/750%20SQFT%20DETACHED%20ADU%20COMPLETED%20FRONT%20BUILDING.jpg"
+                  alt="Completed 750 sq ft detached ADU by Casita"
+                  className="w-full h-full object-cover"
+                />
               </div>
 
               {/* Floating stat card */}

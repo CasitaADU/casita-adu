@@ -45,19 +45,19 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        {/* Logo */}
+        {/* Logo + Rotating Text */}
         <Link href="/" className="flex items-center gap-2 group">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/casita-logo.png"
             alt="Casita"
-            className={`h-12 w-auto object-contain transition-all duration-300 ${scrolled ? '' : 'brightness-0 invert'}`}
+            className={`h-10 md:h-12 w-auto object-contain transition-all duration-300 ${scrolled ? '' : 'brightness-0 invert'}`}
           />
-          <div className="flex items-baseline gap-2 overflow-hidden">
-            <span className={`font-display text-xl tracking-tight transition-colors duration-300 ${scrolled ? 'text-brand-dark-teal' : 'text-white'}`}>
+          <div className="flex items-baseline gap-1.5">
+            <span className={`font-display text-lg md:text-xl tracking-tight transition-colors duration-300 ${scrolled ? 'text-brand-dark-teal' : 'text-white'}`}>
               CASITA
             </span>
-            <div className="relative h-6 overflow-hidden" style={{ minWidth: '10rem' }}>
+            <div className="relative h-6 overflow-hidden hidden sm:block" style={{ minWidth: '14rem' }}>
               <AnimatePresence mode="wait">
                 <motion.span
                   key={rotatingWords[wordIndex]}
@@ -65,7 +65,7 @@ export default function Navbar() {
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: -20, opacity: 0 }}
                   transition={{ duration: 0.4, ease: 'easeInOut' }}
-                  className="absolute left-0 font-display text-lg text-brand-gold whitespace-nowrap"
+                  className="absolute left-0 font-display text-base md:text-lg text-brand-gold whitespace-nowrap"
                 >
                   {rotatingWords[wordIndex]}
                 </motion.span>
@@ -74,75 +74,82 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-                scrolled
-                  ? 'text-brand-slate hover:text-brand-dark-teal hover:bg-brand-dark-teal/5'
-                  : 'text-white/90 hover:text-white hover:bg-white/10'
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* CTA + Phone */}
-        <div className="hidden lg:flex items-center gap-4">
+        {/* Right side: Phone + Hamburger */}
+        <div className="flex items-center gap-4">
           <a
             href="tel:6198912065"
-            className={`flex items-center gap-2 text-sm font-medium ${
+            className={`hidden sm:flex items-center gap-2 text-sm font-medium transition-colors ${
               scrolled ? 'text-brand-dark-teal' : 'text-white'
             }`}
           >
             <Phone className="w-4 h-4" />
             (619) 891-2065
           </a>
-          <Link href="/contact" className="btn-primary !py-2.5 !px-6 !text-xs">
+          <Link href="/contact" className="hidden md:inline-flex btn-primary !py-2.5 !px-6 !text-xs">
             Free Site Walk
           </Link>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className={`p-2 rounded-lg transition-colors ${scrolled ? 'text-brand-dark-teal hover:bg-brand-dark-teal/5' : 'text-white hover:bg-white/10'}`}
+          >
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
-
-        {/* Mobile toggle */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className={`lg:hidden p-2 rounded-lg ${scrolled ? 'text-brand-dark-teal' : 'text-white'}`}
-        >
-          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
       </div>
 
-      {/* Mobile Nav */}
+      {/* Full-screen Menu Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-white border-t border-gray-100 overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 top-0 z-40 bg-brand-dark-teal"
           >
-            <div className="px-6 py-4 space-y-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="block px-4 py-3 text-sm font-medium text-brand-slate hover:bg-brand-cream rounded-lg"
-                >
-                  {link.label}
+            <div className="flex flex-col h-full">
+              {/* Menu Header */}
+              <div className="flex items-center justify-between px-6 py-5">
+                <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center gap-2">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/images/casita-logo.png" alt="Casita" className="h-10 md:h-12 w-auto object-contain brightness-0 invert" />
+                  <span className="font-display text-xl text-white">CASITA</span>
                 </Link>
-              ))}
-              <div className="pt-4 border-t border-gray-100">
-                <a href="tel:6198912065" className="flex items-center gap-2 px-4 py-3 text-sm font-semibold text-brand-dark-teal">
-                  <Phone className="w-4 h-4" /> (619) 891-2065
-                </a>
-                <Link href="/contact" className="btn-primary w-full mt-2 text-center">
-                  Schedule Free Site Walk
-                </Link>
+                <button onClick={() => setIsOpen(false)} className="p-2 text-white/70 hover:text-white rounded-lg">
+                  <X className="w-7 h-7" />
+                </button>
+              </div>
+
+              {/* Nav Links */}
+              <nav className="flex-1 flex flex-col justify-center px-10 md:px-20">
+                {navLinks.map((link, i) => (
+                  <motion.div
+                    key={link.label}
+                    initial={{ opacity: 0, x: -30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.05 + i * 0.05 }}
+                  >
+                    <Link
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className="block py-3 md:py-4 font-display text-2xl md:text-4xl text-white/80 hover:text-brand-gold transition-colors border-b border-white/5"
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.div>
+                ))}
+              </nav>
+
+              {/* Menu Footer */}
+              <div className="px-10 md:px-20 pb-10">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                  <a href="tel:6198912065" className="flex items-center gap-2 text-white/60 hover:text-brand-gold transition-colors">
+                    <Phone className="w-4 h-4" /> (619) 891-2065
+                  </a>
+                  <Link href="/contact" onClick={() => setIsOpen(false)} className="btn-primary bg-brand-gold text-brand-dark-teal hover:bg-brand-gold/90">
+                    Schedule Free Site Walk
+                  </Link>
+                </div>
               </div>
             </div>
           </motion.div>
