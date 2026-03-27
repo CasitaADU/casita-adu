@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --font-display: 'DM Serif Display', serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-body);
+    color: #1A1A2E;
+    background-color: #FAF7F0;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+  }
+
+  ::selection {
+    background-color: #C8A84B;
+    color: #0D4A4A;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-8 py-3.5 bg-brand-gold text-brand-dark-teal font-semibold rounded-lg
+           hover:bg-brand-gold-light transition-all duration-300 hover:shadow-lg hover:shadow-brand-gold/25
+           active:scale-[0.98] text-sm tracking-wide uppercase;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-8 py-3.5 border-2 border-brand-dark-teal text-brand-dark-teal font-semibold rounded-lg
+           hover:bg-brand-dark-teal hover:text-white transition-all duration-300
+           active:scale-[0.98] text-sm tracking-wide uppercase;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center px-6 py-2.5 text-brand-mid-teal font-medium rounded-lg
+           hover:bg-brand-mid-teal/10 transition-all duration-300 text-sm;
+  }
+
+  .section-padding {
+    @apply px-6 py-20 md:px-12 lg:px-20 xl:px-28;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden
+           hover:shadow-xl hover:shadow-brand-dark-teal/5 transition-all duration-500;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm
+           focus:outline-none focus:ring-2 focus:ring-brand-mid-teal/30 focus:border-brand-mid-teal
+           transition-all duration-200 placeholder:text-gray-400;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-brand-slate mb-1.5;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-dark-teal via-brand-mid-teal to-brand-light-teal;
+  }
+
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-white/20;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAF7F0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1A7A6E;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0D4A4A;
+}
+
+/* Admin & Portal specific styles */
+.admin-sidebar {
+  @apply fixed left-0 top-0 h-screen w-64 bg-brand-dark-teal text-white z-40;
+}
+
+.portal-card {
+  @apply bg-white rounded-2xl p-6 shadow-sm border border-gray-100;
+}
+
+/* Phase badge colors */
+.phase-planning { @apply bg-blue-50 text-blue-700 border-blue-200; }
+.phase-permitting { @apply bg-purple-50 text-purple-700 border-purple-200; }
+.phase-design { @apply bg-indigo-50 text-indigo-700 border-indigo-200; }
+.phase-construction { @apply bg-amber-50 text-amber-700 border-amber-200; }
+.phase-inspection { @apply bg-orange-50 text-orange-700 border-orange-200; }
+.phase-completed { @apply bg-emerald-50 text-emerald-700 border-emerald-200; }
+
+/* Animation delays for staggered reveals */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
