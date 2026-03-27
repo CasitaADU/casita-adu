@@ -6,6 +6,7 @@ import Footer from '@/components/layout/Footer';
 import { createClient } from '@/lib/supabase/client';
 import { MapPin, Maximize2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import type { PortfolioProject } from '@/types';
 
 export default function PortfolioPage() {
@@ -48,23 +49,30 @@ export default function PortfolioPage() {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {filtered.map((project, i) => (
-                <motion.div key={project.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
-                  className="card group cursor-pointer">
-                  <div className="aspect-[4/3] bg-gray-100 relative overflow-hidden">
-                    {project.cover_image ? <img src={project.cover_image} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" /> : <div className="flex items-center justify-center h-full text-gray-300 text-sm">No image</div>}
-                    <div className="absolute inset-0 bg-brand-dark-teal/0 group-hover:bg-brand-dark-teal/40 transition-all flex items-center justify-center">
-                      <Maximize2 className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                <Link key={project.id} href={`/portfolio/${project.slug}`}>
+                  <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
+                    className="card group cursor-pointer">
+                    <div className="aspect-[4/3] bg-gray-100 relative overflow-hidden">
+                      {project.cover_image ? <img src={project.cover_image} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" /> : <div className="flex items-center justify-center h-full text-gray-300 text-sm">No image</div>}
+                      <div className="absolute inset-0 bg-brand-dark-teal/0 group-hover:bg-brand-dark-teal/40 transition-all flex items-center justify-center">
+                        <Maximize2 className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                      {(project.images?.length || 0) > 0 && (
+                        <div className="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-2.5 py-1 rounded-lg backdrop-blur-sm">
+                          {(project.images?.length || 0) + 1} photos
+                        </div>
+                      )}
                     </div>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="font-display text-xl text-brand-dark-teal mb-2">{project.title}</h3>
-                    <div className="flex items-center gap-2 text-sm text-brand-slate/50 mb-3"><MapPin className="w-3.5 h-3.5" />{project.location}</div>
-                    <p className="text-sm text-brand-slate/40 line-clamp-2 mb-3">{project.description}</p>
-                    <div className="flex gap-4 text-xs font-medium text-brand-slate/40">
-                      <span>{project.sqft} sq ft</span><span>{project.bedrooms}bd/{project.bathrooms}ba</span><span className="text-brand-gold capitalize">{project.project_type}</span>
+                    <div className="p-6">
+                      <h3 className="font-display text-xl text-brand-dark-teal mb-2">{project.title}</h3>
+                      <div className="flex items-center gap-2 text-sm text-brand-slate/50 mb-3"><MapPin className="w-3.5 h-3.5" />{project.location}</div>
+                      <p className="text-sm text-brand-slate/40 line-clamp-2 mb-3">{project.description}</p>
+                      <div className="flex gap-4 text-xs font-medium text-brand-slate/40">
+                        <span>{project.sqft} sq ft</span><span>{project.bedrooms}bd/{project.bathrooms}ba</span><span className="text-brand-gold capitalize">{project.project_type}</span>
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
+                  </motion.div>
+                </Link>
               ))}
             </div>
           </div>
