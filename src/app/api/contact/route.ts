@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServiceRoleClient } from '@/lib/supabase/server';
 import { z } from 'zod';
+import { sendWelcomeSequence } from '@/lib/email/send';
 
 const schema = z.object({
   first_name: z.string().min(1),
@@ -20,6 +21,8 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = createServiceRoleClient();
+
+    // Save to database
     const { error } = await supabase.from('contact_submissions').insert({
       ...parsed.data,
       status: 'new',
@@ -30,6 +33,11 @@ export async function POST(request: NextRequest) {
       console.error('Contact submission error:', error);
       return NextResponse.json({ error: 'Failed to save' }, { status: 500 });
     }
+
+    // Send email sequence (don't block the response on email delivery)
+    sendWelcomeSequence(parsed.data).catch((err) => {
+      console.error('Email sequence error:', err);
+    });
 
     return NextResponse.json({ success: true });
   } catch {
