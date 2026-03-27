@@ -52,7 +52,7 @@ export default function AdminBlog() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div><h1 className="font-display text-3xl text-brand-dark-teal mb-1">Blog Posts</h1><p className="text-brand-slate/50 text-sm">Create and manage blog content.</p></div>
-        <button onClick={() => setEditing({ title: '', excerpt: '', content: '', cover_image: '', author: 'Casita ADU', tags: [], published: false })} className="btn-primary flex items-center gap-2 !text-xs"><Plus className="w-4 h-4" />New Post</button>
+        <button onClick={() => setEditing({ title: '', excerpt: '', content: '', cover_image: '', author: 'Casita', tags: [], published: false })} className="btn-primary flex items-center gap-2 !text-xs"><Plus className="w-4 h-4" />New Post</button>
       </div>
 
       <div className="space-y-4">

@@ -49,14 +49,13 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand Column */}
           <div className="lg:col-span-1">
-            <div className="flex items-center gap-2 mb-6">
+            <div className="mb-6">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/casita-logo.png"
-                alt="Casita ADU"
+                alt="Casita"
                 className="h-14 w-auto object-contain brightness-0 invert"
               />
-              <span className="font-display text-xl text-brand-gold">ADU</span>
             </div>
             <p className="text-white/50 text-sm leading-relaxed mb-6">
               California&apos;s premier construction management agency. From permitting to construction, we handle every detail.
@@ -137,7 +136,7 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-white/30">
-            &copy; {new Date().getFullYear()} Casita ADU. All rights reserved.
+            &copy; {new Date().getFullYear()} Casita. All rights reserved.
           </p>
           <div className="flex gap-6">
             <Link href="/privacy" className="text-xs text-white/30 hover:text-white/60 transition-colors">Privacy Policy</Link>

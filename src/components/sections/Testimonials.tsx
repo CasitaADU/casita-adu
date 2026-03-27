@@ -5,7 +5,7 @@ import { useRef } from 'react';
 import { Star, Quote } from 'lucide-react';
 
 const testimonials = [
-  { name: 'Maria & Carlos R.', location: 'Encinitas, CA', text: 'Casita ADU made what seemed like an overwhelming process feel completely manageable. From the first site walk to the final walkthrough, they were transparent, responsive, and truly cared about our vision.', rating: 5 },
+  { name: 'Maria & Carlos R.', location: 'Encinitas, CA', text: 'Casita made what seemed like an overwhelming process feel completely manageable. From the first site walk to the final walkthrough, they were transparent, responsive, and truly cared about our vision.', rating: 5 },
   { name: 'David T.', location: 'Carlsbad, CA', text: 'I was nervous about permits and timelines, but the Casita team handled everything. My ADU was completed on schedule and the quality exceeded my expectations. Highly recommend!', rating: 5 },
   { name: 'Sarah & Mike L.', location: 'San Diego, CA', text: 'We wanted a guest house for my parents and Casita delivered exactly what we envisioned. Their design team was creative, and the construction management was seamless.', rating: 5 },
 ];

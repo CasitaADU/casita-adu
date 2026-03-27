@@ -37,7 +37,7 @@ export default function AdminDashboard() {
     <div>
       <div className="mb-8">
         <h1 className="font-display text-3xl text-brand-dark-teal mb-2">Dashboard</h1>
-        <p className="text-brand-slate/50">Welcome back. Here&apos;s an overview of your Casita ADU operations.</p>
+        <p className="text-brand-slate/50">Welcome back. Here&apos;s an overview of your Casita operations.</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">

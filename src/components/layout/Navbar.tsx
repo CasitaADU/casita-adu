@@ -36,16 +36,13 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
+        <Link href="/" className="flex items-center group">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/casita-logo.png"
-            alt="Casita ADU"
+            alt="Casita"
             className={`h-12 w-auto object-contain transition-all duration-300 ${scrolled ? '' : 'brightness-0 invert'}`}
           />
-          <span className={`font-display text-lg tracking-tight transition-colors duration-300 ${scrolled ? 'text-brand-gold' : 'text-brand-gold'}`}>
-            ADU
-          </span>
         </Link>
 
         {/* Desktop Nav */}

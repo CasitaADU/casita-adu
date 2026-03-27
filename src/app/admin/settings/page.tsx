@@ -56,7 +56,7 @@ export default function AdminSettings() {
             <h2 className="font-display text-xl text-brand-dark-teal">Company Info</h2>
           </div>
           <div className="text-sm text-brand-slate/50 space-y-2">
-            <p><strong>Company:</strong> Casita ADU</p>
+            <p><strong>Company:</strong> Casita</p>
             <p><strong>Phone:</strong> (619) 891-2065</p>
             <p><strong>Email:</strong> info@casitaadu.com</p>
             <p><strong>Hours:</strong> Mon–Fri 8AM–6PM · Sat 9AM–3PM · Sun Closed</p>

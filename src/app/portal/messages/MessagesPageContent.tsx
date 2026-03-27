@@ -66,7 +66,7 @@ export default function PortalMessages() {
     <div>
       <div className="mb-6">
         <h1 className="font-display text-3xl text-brand-dark-teal mb-2">Messages</h1>
-        <p className="text-brand-slate/50 text-sm">Communicate directly with the Casita ADU team about your project.</p>
+        <p className="text-brand-slate/50 text-sm">Communicate directly with the Casita team about your project.</p>
       </div>
 
       {projects.length === 0 ? (

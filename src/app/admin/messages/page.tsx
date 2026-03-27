@@ -46,7 +46,7 @@ export default function AdminMessages() {
   const sendMessage = async () => {
     if (!newMessage.trim() || !selectedProject) return;
     await supabase.from('client_messages').insert({
-      project_id: selectedProject, sender_id: userId, sender_name: 'Casita ADU Team',
+      project_id: selectedProject, sender_id: userId, sender_name: 'Casita Team',
       sender_role: 'admin', content: newMessage.trim(), read: false, created_at: new Date().toISOString(),
     });
     setNewMessage('');
