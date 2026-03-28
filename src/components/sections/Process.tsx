@@ -28,9 +28,6 @@ export default function Process() {
         </motion.div>
 
         <div className="relative">
-          {/* Connecting line */}
-          <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-brand-dark-teal/10 via-brand-gold/30 to-brand-dark-teal/10 -translate-y-1/2" />
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
             {steps.map((step, i) => (
               <motion.div
