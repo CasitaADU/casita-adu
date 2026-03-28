@@ -25,7 +25,7 @@ export default function Portfolio() {
               Featured <span className="text-brand-gold italic">Projects</span>
             </h2>
           </div>
-          <Link href="/portfolio" className="inline-flex items-center gap-2 text-brand-mid-teal font-semibold hover:text-brand-dark-teal transition-colors">
+          <Link href="/portfolio" className="inline-flex items-center gap-2 text-brand-gold font-semibold hover:text-brand-charcoal transition-colors">
             View All Projects <ArrowRight className="w-4 h-4" />
           </Link>
         </motion.div>
@@ -39,7 +39,7 @@ export default function Portfolio() {
               transition={{ delay: i * 0.15 }}
               className="card group cursor-pointer"
             >
-              <div className="aspect-[4/3] bg-gradient-to-br from-brand-mid-teal/20 to-brand-dark-teal/10 relative overflow-hidden">
+              <div className="aspect-[4/3] bg-gradient-to-br from-brand-beige to-brand-cream relative overflow-hidden">
                 <div className="absolute inset-0 flex items-center justify-center text-brand-slate/20 text-sm">Project Image</div>
                 <div className="absolute inset-0 bg-brand-dark-teal/0 group-hover:bg-brand-dark-teal/40 transition-all duration-500 flex items-center justify-center">
                   <Maximize2 className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />

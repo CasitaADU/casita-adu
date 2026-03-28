@@ -6,34 +6,13 @@ import { ArrowRight, Play, Shield, Clock, Award } from 'lucide-react';
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-brand-dark-teal">
-        {/* Gradient overlay mesh */}
-        <div className="absolute inset-0 opacity-40"
-          style={{
-            background: 'radial-gradient(ellipse at 20% 50%, #1A7A6E 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, #C8A84B22 0%, transparent 50%)',
-          }}
-        />
-        {/* Decorative grid */}
-        <div className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
-          }}
-        />
-        {/* Floating shapes */}
-        <motion.div
-          animate={{ y: [-10, 10, -10], rotate: [0, 5, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-brand-gold/5 blur-3xl"
-        />
-        <motion.div
-          animate={{ y: [10, -15, 10] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute bottom-1/3 left-1/6 w-48 h-48 rounded-full bg-brand-mid-teal/10 blur-3xl"
-        />
-      </div>
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-brand-cream">
+      {/* Subtle decorative elements */}
+      <motion.div
+        animate={{ y: [-10, 10, -10], rotate: [0, 5, 0] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-brand-gold/5 blur-3xl"
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20 w-full">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -53,7 +32,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="font-display text-5xl md:text-6xl lg:text-7xl text-white leading-[1.1] mb-6"
+              className="font-display text-5xl md:text-6xl lg:text-7xl text-brand-charcoal leading-[1.1] mb-6"
             >
               Full Service{' '}
               <span className="text-brand-gold italic">Construction Management</span>
@@ -63,7 +42,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="text-white/60 text-lg md:text-xl leading-relaxed mb-10 max-w-xl"
+              className="text-brand-slate/70 text-lg md:text-xl leading-relaxed mb-10 max-w-xl"
             >
               From permitting and design to construction and final walkthroughs —
               we handle every detail so you don&apos;t have to. Your Casita Concierge
@@ -79,8 +58,8 @@ export default function Hero() {
               <Link href="/contact" className="btn-primary flex items-center gap-2 !text-base !py-4 !px-10">
                 Schedule Free Site Walk <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href="/portfolio" className="inline-flex items-center gap-3 px-6 py-4 text-white/80 hover:text-white transition-colors group">
-                <div className="w-12 h-12 rounded-full border-2 border-white/20 flex items-center justify-center group-hover:border-brand-gold group-hover:bg-brand-gold/10 transition-all">
+              <Link href="/portfolio" className="inline-flex items-center gap-3 px-6 py-4 text-brand-charcoal/70 hover:text-brand-charcoal transition-colors group">
+                <div className="w-12 h-12 rounded-full border-2 border-brand-charcoal/20 flex items-center justify-center group-hover:border-brand-gold group-hover:bg-brand-gold/10 transition-all">
                   <Play className="w-4 h-4 ml-0.5" />
                 </div>
                 View Our Work
@@ -101,7 +80,7 @@ export default function Hero() {
               ].map(({ icon: Icon, label }) => (
                 <div key={label} className="flex items-center gap-2.5">
                   <Icon className="w-5 h-5 text-brand-gold" />
-                  <span className="text-white/50 text-sm">{label}</span>
+                  <span className="text-brand-slate/50 text-sm">{label}</span>
                 </div>
               ))}
             </motion.div>
@@ -116,7 +95,7 @@ export default function Hero() {
           >
             <div className="relative">
               {/* Main image — completed 750 sqft ADU */}
-              <div className="aspect-[4/5] rounded-3xl border border-white/10 overflow-hidden">
+              <div className="aspect-[4/5] rounded-3xl border border-brand-charcoal/10 overflow-hidden shadow-2xl">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="https://jahmbtbandibcvfqgnlf.supabase.co/storage/v1/object/public/images/portfolio/749%20SQFT%20DETACHED%20ADU%20COMPLETED%20AERIAL.jpg"
@@ -129,35 +108,28 @@ export default function Hero() {
               <motion.div
                 animate={{ y: [-5, 5, -5] }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -left-8 top-1/3 glass rounded-2xl p-5 shadow-2xl"
+                className="absolute -left-8 top-1/3 bg-white rounded-2xl p-5 shadow-2xl border border-brand-charcoal/5"
               >
                 <div className="text-brand-gold font-display text-3xl">50+</div>
-                <div className="text-white/60 text-sm">Projects Completed</div>
+                <div className="text-brand-slate/50 text-sm">Projects Completed</div>
               </motion.div>
 
               {/* Floating rating card */}
               <motion.div
                 animate={{ y: [5, -5, 5] }}
                 transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -right-4 bottom-1/4 glass rounded-2xl p-5 shadow-2xl"
+                className="absolute -right-4 bottom-1/4 bg-white rounded-2xl p-5 shadow-2xl border border-brand-charcoal/5"
               >
                 <div className="flex gap-1 mb-1">
                   {[...Array(5)].map((_, i) => (
                     <span key={i} className="text-brand-gold text-lg">★</span>
                   ))}
                 </div>
-                <div className="text-white/60 text-sm">5-Star Rated</div>
+                <div className="text-brand-slate/50 text-sm">5-Star Rated</div>
               </motion.div>
             </div>
           </motion.div>
         </div>
-      </div>
-
-      {/* Bottom curve */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 80" className="w-full" preserveAspectRatio="none">
-          <path d="M0,80 L0,40 Q720,0 1440,40 L1440,80 Z" fill="#FAF7F0" />
-        </svg>
       </div>
     </section>
   );

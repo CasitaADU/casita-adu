@@ -93,7 +93,7 @@ export default function Testimonials() {
             href="https://reviews.birdeye.com/casita-adu-171754398335143"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm text-brand-mid-teal hover:text-brand-dark-teal font-semibold transition-colors"
+            className="text-sm text-brand-gold hover:text-brand-charcoal font-semibold transition-colors"
           >
             View All 18 Reviews →
           </a>

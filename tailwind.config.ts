@@ -6,14 +6,15 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          'dark-teal': '#0D4A4A',
-          'mid-teal': '#1A7A6E',
-          'light-teal': '#2A9D8F',
-          gold: '#C8A84B',
-          'gold-light': '#E0C872',
-          cream: '#FAF7F0',
-          charcoal: '#1A1A2E',
-          slate: '#2D3748',
+          'dark-teal': '#2a2622',
+          'mid-teal': '#7c736a',
+          'light-teal': '#a19991',
+          gold: '#cc9433',
+          'gold-light': '#e0bf85',
+          cream: '#fcfaf8',
+          charcoal: '#1c1a17',
+          slate: '#37332f',
+          beige: '#f1ece4',
         },
       },
       fontFamily: {

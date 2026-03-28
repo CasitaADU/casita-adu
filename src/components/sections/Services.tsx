@@ -10,22 +10,22 @@ const services = [
     icon: FileCheck,
     title: 'Full Permitting Packages',
     description: 'We handle every step of the permitting process, ensuring your project complies with local building codes and zoning regulations. From initial submittals to final approvals.',
-    color: 'from-blue-500/10 to-indigo-500/10',
-    iconBg: 'bg-blue-500/10 text-blue-600',
+    color: 'from-brand-gold/5 to-brand-gold/10',
+    iconBg: 'bg-brand-charcoal/5 text-brand-charcoal',
   },
   {
     icon: Compass,
     title: 'Design & Structural Plans',
     description: 'Our team creates functional, beautiful designs tailored to your property and lifestyle. We maximize space, enhance aesthetics, and meet budget goals.',
-    color: 'from-brand-gold/10 to-amber-500/10',
+    color: 'from-brand-gold/5 to-brand-gold/10',
     iconBg: 'bg-brand-gold/10 text-brand-gold',
   },
   {
     icon: HardHat,
     title: 'Construction Management',
     description: 'We oversee your build from start to finish, coordinating contractors, schedules, and quality control. On time, on budget, built to the highest standard.',
-    color: 'from-brand-mid-teal/10 to-emerald-500/10',
-    iconBg: 'bg-brand-mid-teal/10 text-brand-mid-teal',
+    color: 'from-brand-gold/5 to-brand-gold/10',
+    iconBg: 'bg-brand-charcoal/5 text-brand-charcoal',
   },
 ];
 
@@ -66,7 +66,7 @@ export default function Services() {
                 </div>
                 <h3 className="font-display text-2xl text-brand-dark-teal mb-4">{service.title}</h3>
                 <p className="text-brand-slate/60 leading-relaxed mb-6">{service.description}</p>
-                <Link href="/services" className="inline-flex items-center gap-2 text-sm font-semibold text-brand-mid-teal group-hover:text-brand-dark-teal transition-colors">
+                <Link href="/services" className="inline-flex items-center gap-2 text-sm font-semibold text-brand-gold group-hover:text-brand-charcoal transition-colors">
                   Learn More <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>

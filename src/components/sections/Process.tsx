@@ -41,7 +41,7 @@ export default function Process() {
                 className="relative text-center group"
               >
                 <div className="relative z-10 mx-auto w-20 h-20 rounded-2xl bg-white border-2 border-brand-dark-teal/10 flex items-center justify-center mb-5 group-hover:border-brand-gold group-hover:shadow-lg group-hover:shadow-brand-gold/10 transition-all duration-300">
-                  <step.icon className="w-8 h-8 text-brand-mid-teal group-hover:text-brand-gold transition-colors" />
+                  <step.icon className="w-8 h-8 text-brand-charcoal group-hover:text-brand-gold transition-colors" />
                   <div className="absolute -top-2 -right-2 w-7 h-7 rounded-lg bg-brand-gold text-brand-dark-teal text-xs font-bold flex items-center justify-center">
                     {i + 1}
                   </div>

@@ -6,14 +6,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Phone } from 'lucide-react';
 
 const navLinks = [
-  { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Services', href: '/services' },
   { label: 'Portfolio', href: '/portfolio' },
-  { label: 'Pre-Approved Plans', href: '/pre-approved-plans' },
+  { label: 'Plans', href: '/pre-approved-plans' },
   { label: 'Blog', href: '/blog' },
+  { label: 'Resources', href: '/resources' },
   { label: 'Financing', href: '/financing' },
   { label: 'Contact', href: '/contact' },
+];
+
+const mobileNavLinks = [
+  { label: 'Home', href: '/' },
+  ...navLinks.map(l => l.label === 'Plans' ? { label: 'Pre-Approved Plans', href: l.href } : l),
 ];
 
 const rotatingWords = ['ADU', 'Home', 'Construction Management'];
@@ -40,32 +45,32 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-white/95 backdrop-blur-xl shadow-lg shadow-brand-dark-teal/5 py-3'
-          : 'bg-transparent py-5'
+          ? 'bg-white/95 backdrop-blur-xl shadow-lg shadow-brand-dark-teal/5 py-2'
+          : 'bg-transparent py-4'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 lg:px-6 flex items-center justify-between">
         {/* Logo + Rotating Text */}
-        <Link href="/" className="flex items-center gap-2 group">
+        <Link href="/" className="flex items-center gap-2 group shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/casita-logo.png"
             alt="Casita"
-            className={`h-10 md:h-12 w-auto object-contain transition-all duration-300 ${scrolled ? '' : 'brightness-0 invert'}`}
+            className="h-9 md:h-10 w-auto object-contain transition-all duration-300"
           />
           <div className="flex items-baseline gap-1.5">
-            <span className={`font-display text-lg md:text-xl tracking-tight transition-colors duration-300 ${scrolled ? 'text-brand-dark-teal' : 'text-white'}`}>
+            <span className="font-display text-lg tracking-tight text-brand-charcoal">
               CASITA
             </span>
-            <div className="relative h-6 overflow-hidden hidden sm:block" style={{ minWidth: '14rem' }}>
+            <div className="relative h-5 overflow-hidden" style={{ minWidth: '11rem' }}>
               <AnimatePresence mode="wait">
                 <motion.span
                   key={rotatingWords[wordIndex]}
-                  initial={{ y: 20, opacity: 0 }}
+                  initial={{ y: 18, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -20, opacity: 0 }}
+                  exit={{ y: -18, opacity: 0 }}
                   transition={{ duration: 0.4, ease: 'easeInOut' }}
-                  className="absolute left-0 font-display text-base md:text-lg text-brand-gold whitespace-nowrap"
+                  className="absolute left-0 font-display text-sm text-brand-gold whitespace-nowrap"
                 >
                   {rotatingWords[wordIndex]}
                 </motion.span>
@@ -74,30 +79,41 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* Right side: Phone + Hamburger */}
-        <div className="flex items-center gap-4">
+        {/* Desktop Nav Links */}
+        <nav className="hidden lg:flex items-center gap-1">
+          {navLinks.map((link) => (
+            <Link
+              key={link.label}
+              href={link.href}
+              className="px-3 py-2 text-[13px] font-medium rounded-lg transition-colors text-brand-slate hover:text-brand-charcoal hover:bg-brand-charcoal/5"
+            >
+              {link.label}
+            </Link>
+          ))}
+          <Link href="/contact" className="ml-2 btn-primary !py-2 !px-5 !text-xs">
+            Free Site Walk
+          </Link>
+        </nav>
+
+        {/* Mobile: Phone + Hamburger */}
+        <div className="flex lg:hidden items-center gap-3">
           <a
             href="tel:6198912065"
-            className={`hidden sm:flex items-center gap-2 text-sm font-medium transition-colors ${
-              scrolled ? 'text-brand-dark-teal' : 'text-white'
-            }`}
+            className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-brand-charcoal"
           >
             <Phone className="w-4 h-4" />
             (619) 891-2065
           </a>
-          <Link href="/contact" className="hidden md:inline-flex btn-primary !py-2.5 !px-6 !text-xs">
-            Free Site Walk
-          </Link>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={`p-2 rounded-lg transition-colors ${scrolled ? 'text-brand-dark-teal hover:bg-brand-dark-teal/5' : 'text-white hover:bg-white/10'}`}
+            className="p-2 rounded-lg transition-colors text-brand-charcoal hover:bg-brand-charcoal/5"
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
-      {/* Full-screen Menu Overlay */}
+      {/* Mobile Full-screen Menu Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -105,14 +121,14 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 top-0 z-40 bg-brand-dark-teal"
+            className="fixed inset-0 top-0 z-40 bg-brand-dark-teal lg:hidden"
           >
             <div className="flex flex-col h-full">
               {/* Menu Header */}
-              <div className="flex items-center justify-between px-6 py-5">
+              <div className="flex items-center justify-between px-6 py-4">
                 <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center gap-2">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/images/casita-logo.png" alt="Casita" className="h-10 md:h-12 w-auto object-contain brightness-0 invert" />
+                  <img src="/images/casita-logo.png" alt="Casita" className="h-10 w-auto object-contain brightness-0 invert" />
                   <span className="font-display text-xl text-white">CASITA</span>
                 </Link>
                 <button onClick={() => setIsOpen(false)} className="p-2 text-white/70 hover:text-white rounded-lg">
@@ -122,7 +138,7 @@ export default function Navbar() {
 
               {/* Nav Links */}
               <nav className="flex-1 flex flex-col justify-center px-10 md:px-20">
-                {navLinks.map((link, i) => (
+                {mobileNavLinks.map((link, i) => (
                   <motion.div
                     key={link.label}
                     initial={{ opacity: 0, x: -30 }}

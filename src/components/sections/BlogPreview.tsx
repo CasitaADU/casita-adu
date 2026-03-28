@@ -23,7 +23,7 @@ export default function BlogPreview() {
             <span className="text-brand-gold font-semibold text-sm uppercase tracking-widest">From the Blog</span>
             <h2 className="font-display text-4xl md:text-5xl text-brand-dark-teal mt-4">Latest <span className="text-brand-gold italic">Insights</span></h2>
           </div>
-          <Link href="/blog" className="inline-flex items-center gap-2 text-brand-mid-teal font-semibold hover:text-brand-dark-teal transition-colors">
+          <Link href="/blog" className="inline-flex items-center gap-2 text-brand-gold font-semibold hover:text-brand-charcoal transition-colors">
             All Articles <ArrowRight className="w-4 h-4" />
           </Link>
         </motion.div>
@@ -32,10 +32,10 @@ export default function BlogPreview() {
           {posts.map((post, i) => (
             <motion.article key={post.slug} initial={{ opacity: 0, y: 40 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: i * 0.15 }}>
               <Link href={`/blog/${post.slug}`} className="card group block">
-                <div className="aspect-video bg-gradient-to-br from-brand-mid-teal/10 to-brand-dark-teal/5 flex items-center justify-center text-brand-slate/20 text-sm">Blog Image</div>
+                <div className="aspect-video bg-gradient-to-br from-brand-beige to-brand-cream flex items-center justify-center text-brand-slate/20 text-sm">Blog Image</div>
                 <div className="p-6">
                   <div className="flex items-center gap-2 text-xs text-brand-slate/40 mb-3"><Calendar className="w-3.5 h-3.5" />{post.date}</div>
-                  <h3 className="font-display text-lg text-brand-dark-teal mb-2 group-hover:text-brand-mid-teal transition-colors line-clamp-2">{post.title}</h3>
+                  <h3 className="font-display text-lg text-brand-charcoal mb-2 group-hover:text-brand-gold transition-colors line-clamp-2">{post.title}</h3>
                   <p className="text-sm text-brand-slate/50 line-clamp-3">{post.excerpt}</p>
                 </div>
               </Link>
