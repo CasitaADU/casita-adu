@@ -17,25 +17,21 @@ const categories = [
     icon: Scale,
     title: 'California ADU Laws',
     description: 'Understand state regulations, setback requirements, and recent legislative changes.',
-    articles: [],
   },
   {
     icon: DollarSign,
     title: 'Financing Your ADU',
     description: 'Explore financing options from construction loans to HELOCs and ADU-specific programs.',
-    articles: [],
   },
   {
     icon: Ruler,
     title: 'Design Considerations',
     description: 'Learn about layout options, accessibility requirements, and maximizing your space.',
-    articles: [],
   },
   {
     icon: FileText,
     title: 'Permitting Process',
     description: 'Navigate the permit process with confidence using our step-by-step guides.',
-    articles: [],
   },
 ];
 
@@ -241,23 +237,7 @@ export default function ResourcesPage() {
                     <cat.icon className="w-6 h-6 text-brand-gold" />
                   </div>
                   <h3 className="font-display text-2xl text-brand-charcoal mb-3">{cat.title}</h3>
-                  <p className="text-brand-slate/60 mb-6">{cat.description}</p>
-                  <ul className="space-y-3">
-                    {cat.articles.map((article) => (
-                      <li key={article.name}>
-                        <a
-                          href={article.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-sm font-medium text-brand-charcoal hover:text-brand-gold transition-colors group"
-                        >
-                          <ExternalLink className="w-3.5 h-3.5 text-brand-gold" />
-                          {article.name}
-                          <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
+                  <p className="text-brand-slate/60">{cat.description}</p>
                 </motion.div>
               ))}
             </div>
