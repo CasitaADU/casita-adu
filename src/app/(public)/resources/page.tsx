@@ -8,7 +8,7 @@ import Link from 'next/link';
 import {
   BookOpen, Scale, DollarSign, Ruler, FileText,
   ChevronDown, ArrowRight, Download, Mail, User,
-  ExternalLink, CheckCircle2,
+  CheckCircle2,
 } from 'lucide-react';
 
 /* ── Resource categories ── */
@@ -17,41 +17,25 @@ const categories = [
     icon: Scale,
     title: 'California ADU Laws',
     description: 'Understand state regulations, setback requirements, and recent legislative changes.',
-    articles: [
-      { name: 'AB 68 & SB 13 Explained', href: 'https://www.hcd.ca.gov/policy-and-research/accessory-dwelling-units' },
-      { name: 'ADU Size Limits by City', href: 'https://www.hcd.ca.gov/policy-and-research/accessory-dwelling-units' },
-      { name: 'Setback Requirements', href: 'https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=65852.2.&lawCode=GOV' },
-    ],
+    articles: [],
   },
   {
     icon: DollarSign,
     title: 'Financing Your ADU',
     description: 'Explore financing options from construction loans to HELOCs and ADU-specific programs.',
-    articles: [
-      { name: 'ADU Financing Options', href: 'https://www.bankrate.com/home-equity/heloc/how-to-finance-an-adu/' },
-      { name: 'ROI Calculator Guide', href: 'https://www.buildinganadu.com/adu-return-on-investment' },
-      { name: 'Tax Benefits of ADUs', href: 'https://www.nolo.com/legal-encyclopedia/tax-deductions-building-adu.html' },
-    ],
+    articles: [],
   },
   {
     icon: Ruler,
     title: 'Design Considerations',
     description: 'Learn about layout options, accessibility requirements, and maximizing your space.',
-    articles: [
-      { name: 'ADU Layout Best Practices', href: 'https://www.buildinganadu.com/adu-blog/adu-floor-plans' },
-      { name: 'Accessibility Requirements', href: 'https://www.ada.gov/law-and-regs/design-standards/' },
-      { name: 'Maximizing Small Spaces', href: 'https://www.architecturaldigest.com/gallery/small-space-design-tips' },
-    ],
+    articles: [],
   },
   {
     icon: FileText,
     title: 'Permitting Process',
     description: 'Navigate the permit process with confidence using our step-by-step guides.',
-    articles: [
-      { name: 'Permit Timeline Guide', href: 'https://www.hcd.ca.gov/policy-and-research/accessory-dwelling-units' },
-      { name: 'Common Permit Delays', href: 'https://www.buildinganadu.com/adu-blog/adu-permitting-guide' },
-      { name: 'Working with Cities', href: 'https://www.sandiego.gov/development-services/permits/adu' },
-    ],
+    articles: [],
   },
 ];
 
