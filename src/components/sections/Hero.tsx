@@ -2,17 +2,10 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowRight, Shield, Clock, Award } from 'lucide-react';
-
-const trustItems = [
-  { icon: Shield, title: 'Licensed & Insured', description: 'Full protection and peace of mind' },
-  { icon: Clock, title: 'On-Time Delivery', description: 'We honor our timelines' },
-  { icon: Award, title: '5-Year Warranty', description: 'Quality guaranteed' },
-];
+import { ArrowRight } from 'lucide-react';
 
 export default function Hero() {
   return (
-    <>
       <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-brand-cream">
         {/* Decorative blurs */}
         <div className="absolute top-20 right-0 w-[600px] h-[600px] bg-brand-gold/5 rounded-full blur-3xl" />
@@ -84,32 +77,5 @@ export default function Hero() {
           </div>
         </div>
       </section>
-
-      {/* Trust bar */}
-      <section className="bg-brand-charcoal py-8">
-        <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-            {trustItems.map((item, i) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                viewport={{ once: true }}
-                className="flex items-center gap-4"
-              >
-                <div className="w-12 h-12 rounded-full bg-brand-gold/20 flex items-center justify-center flex-shrink-0">
-                  <item.icon className="w-6 h-6 text-brand-gold" />
-                </div>
-                <div>
-                  <p className="font-semibold text-white">{item.title}</p>
-                  <p className="text-sm text-white/50">{item.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </>
   );
 }
