@@ -85,19 +85,24 @@ export default function Navbar() {
             alt="Casita"
             className="h-12 md:h-14 w-auto object-contain transition-all duration-300"
           />
-          <div className="relative h-5 overflow-hidden" style={{ minWidth: '11rem' }}>
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={rotatingWords[wordIndex]}
-                initial={{ y: 18, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -18, opacity: 0 }}
-                transition={{ duration: 0.4, ease: 'easeInOut' }}
-                className="absolute left-0 font-display text-sm text-brand-gold whitespace-nowrap"
-              >
-                {rotatingWords[wordIndex]}
-              </motion.span>
-            </AnimatePresence>
+          <div className="flex items-baseline gap-1.5">
+            <span className="font-display text-lg tracking-tight text-brand-charcoal">
+              CASITA
+            </span>
+            <div className="relative h-5 overflow-hidden" style={{ minWidth: '11rem' }}>
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={rotatingWords[wordIndex]}
+                  initial={{ y: 18, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -18, opacity: 0 }}
+                  transition={{ duration: 0.4, ease: 'easeInOut' }}
+                  className="absolute left-0 font-display text-sm text-brand-gold whitespace-nowrap"
+                >
+                  {rotatingWords[wordIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </div>
           </div>
         </Link>
 
