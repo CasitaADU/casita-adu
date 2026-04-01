@@ -2,13 +2,12 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowRight, Star, Shield, Clock, Award, Building2 } from 'lucide-react';
+import { ArrowRight, Shield, Clock, Award } from 'lucide-react';
 
 const trustItems = [
   { icon: Shield, title: 'Licensed & Insured', description: 'Full protection and peace of mind' },
   { icon: Clock, title: 'On-Time Delivery', description: 'We honor our timelines' },
   { icon: Award, title: '5-Year Warranty', description: 'Quality guaranteed' },
-  { icon: Building2, title: '500+ ADUs Built', description: 'Trusted by California families' },
 ];
 
 export default function Hero() {
@@ -56,27 +55,6 @@ export default function Hero() {
                 </Link>
               </div>
 
-              {/* Social proof */}
-              <div className="flex items-center gap-6 mt-10 pt-10 border-t border-brand-charcoal/10">
-                <div className="flex -space-x-3">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div
-                      key={i}
-                      className="w-10 h-10 rounded-full bg-brand-beige border-2 border-brand-cream flex items-center justify-center text-xs font-medium text-brand-slate/60"
-                    >
-                      {String.fromCharCode(64 + i)}
-                    </div>
-                  ))}
-                </div>
-                <div>
-                  <div className="flex items-center text-brand-gold mb-1">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <Star key={i} className="w-4 h-4 fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-sm text-brand-slate/50">500+ happy homeowners</p>
-                </div>
-              </div>
             </motion.div>
 
             {/* Right image */}
@@ -110,7 +88,7 @@ export default function Hero() {
       {/* Trust bar */}
       <section className="bg-brand-charcoal py-8">
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             {trustItems.map((item, i) => (
               <motion.div
                 key={item.title}
