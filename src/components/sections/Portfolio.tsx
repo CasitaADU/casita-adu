@@ -32,7 +32,7 @@ export default function Portfolio() {
         <motion.div initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} className="flex flex-col md:flex-row md:items-end md:justify-between mb-16 gap-6">
           <div>
             <span className="text-brand-gold font-semibold text-sm uppercase tracking-widest">Our Work</span>
-            <h2 className="font-display text-4xl md:text-5xl text-brand-dark-teal mt-4">
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-brand-charcoal mt-4">
               Featured <span className="text-brand-gold italic">Projects</span>
             </h2>
           </div>
@@ -66,7 +66,7 @@ export default function Portfolio() {
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="font-display text-xl text-brand-dark-teal mb-2">{project.title}</h3>
+                  <h3 className="font-display text-xl font-semibold text-brand-charcoal mb-2">{project.title}</h3>
                   <div className="flex items-center gap-2 text-sm text-brand-slate/50 mb-4">
                     <MapPin className="w-3.5 h-3.5" /> {project.location}
                   </div>

@@ -17,7 +17,7 @@ export default function WhatWeDo() {
           transition={{ duration: 0.7 }}
         >
           <span className="text-brand-gold font-semibold text-sm uppercase tracking-widest">Complete ADU Services</span>
-          <h2 className="font-display text-4xl md:text-5xl text-brand-dark-teal mt-4 mb-8 leading-tight">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-brand-charcoal mt-4 mb-8 leading-tight">
             The Casita <span className="text-brand-gold italic">Way</span>
           </h2>
         </motion.div>

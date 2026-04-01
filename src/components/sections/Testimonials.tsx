@@ -44,7 +44,7 @@ export default function Testimonials() {
           className="text-center mb-16"
         >
           <span className="text-brand-gold font-semibold text-sm uppercase tracking-widest">Testimonials</span>
-          <h2 className="font-display text-4xl md:text-5xl text-brand-dark-teal mt-4 mb-4">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-brand-charcoal mt-4 mb-4">
             What Our <span className="text-brand-gold italic">Clients Say</span>
           </h2>
           <div className="flex items-center justify-center gap-2 mb-2">
@@ -75,7 +75,7 @@ export default function Testimonials() {
               </p>
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="font-semibold text-brand-dark-teal">{t.name}</div>
+                  <div className="font-semibold text-brand-charcoal">{t.name}</div>
                   <div className="text-xs text-brand-slate/40">{t.source}</div>
                 </div>
                 {/* Google icon */}

@@ -28,7 +28,7 @@ export default function ContactForm() {
         <div className="grid lg:grid-cols-5 gap-16">
           <motion.div initial={{ opacity: 0, x: -30 }} animate={isInView ? { opacity: 1, x: 0 } : {}} className="lg:col-span-2">
             <span className="text-brand-gold font-semibold text-sm uppercase tracking-widest">Get In Touch</span>
-            <h2 className="font-display text-4xl text-brand-dark-teal mt-4 mb-6">Let&apos;s Talk About Your <span className="text-brand-gold italic">Project</span></h2>
+            <h2 className="font-display text-4xl font-bold text-brand-charcoal mt-4 mb-6">Let&apos;s Talk About Your <span className="text-brand-gold italic">Project</span></h2>
             <p className="text-brand-slate/60 leading-relaxed mb-10">Ready to get started? Fill out the form and our team will reach out shortly.</p>
             <div className="space-y-6">
               {[

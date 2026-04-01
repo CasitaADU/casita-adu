@@ -42,7 +42,7 @@ export default function Services() {
           className="text-center mb-16"
         >
           <span className="text-brand-gold font-semibold text-sm uppercase tracking-widest">Our Services</span>
-          <h2 className="font-display text-4xl md:text-5xl text-brand-dark-teal mt-4 mb-4">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-brand-charcoal mt-4 mb-4">
             Everything Under <span className="text-brand-gold italic">One Roof</span>
           </h2>
           <p className="text-brand-slate/60 text-lg max-w-2xl mx-auto">
@@ -64,7 +64,7 @@ export default function Services() {
                 <div className={`w-14 h-14 rounded-2xl ${service.iconBg} flex items-center justify-center mb-6`}>
                   <service.icon className="w-6 h-6" />
                 </div>
-                <h3 className="font-display text-2xl text-brand-dark-teal mb-4">{service.title}</h3>
+                <h3 className="font-display text-2xl font-bold text-brand-charcoal mb-4">{service.title}</h3>
                 <p className="text-brand-slate/60 leading-relaxed mb-6">{service.description}</p>
                 <Link href="/services" className="inline-flex items-center gap-2 text-sm font-semibold text-brand-gold group-hover:text-brand-charcoal transition-colors">
                   Learn More <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

@@ -21,7 +21,7 @@ export default function BlogPreview() {
         <motion.div initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} className="flex flex-col md:flex-row md:items-end md:justify-between mb-16 gap-6">
           <div>
             <span className="text-brand-gold font-semibold text-sm uppercase tracking-widest">From the Blog</span>
-            <h2 className="font-display text-4xl md:text-5xl text-brand-dark-teal mt-4">Latest <span className="text-brand-gold italic">Insights</span></h2>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-brand-charcoal mt-4">Latest <span className="text-brand-gold italic">Insights</span></h2>
           </div>
           <Link href="/blog" className="inline-flex items-center gap-2 text-brand-gold font-semibold hover:text-brand-charcoal transition-colors">
             All Articles <ArrowRight className="w-4 h-4" />

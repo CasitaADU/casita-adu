@@ -2,135 +2,136 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowRight, Play, Shield, Clock, Award } from 'lucide-react';
+import { ArrowRight, Star, Shield, Clock, Award, Building2 } from 'lucide-react';
+
+const trustItems = [
+  { icon: Shield, title: 'Licensed & Insured', description: 'Full protection and peace of mind' },
+  { icon: Clock, title: 'On-Time Delivery', description: 'We honor our timelines' },
+  { icon: Award, title: '5-Year Warranty', description: 'Quality guaranteed' },
+  { icon: Building2, title: '500+ ADUs Built', description: 'Trusted by California families' },
+];
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-brand-cream">
-      {/* Subtle decorative elements */}
-      <motion.div
-        animate={{ y: [-10, 10, -10], rotate: [0, 5, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-brand-gold/5 blur-3xl"
-      />
+    <>
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-brand-cream">
+        {/* Decorative blurs */}
+        <div className="absolute top-20 right-0 w-[600px] h-[600px] bg-brand-gold/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-beige rounded-full blur-3xl" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20 w-full">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left content */}
-          <div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 lg:px-8 py-20 w-full">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left content */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-gold/10 border border-brand-gold/20 mb-8"
+              transition={{ duration: 0.6 }}
             >
-              <div className="w-2 h-2 rounded-full bg-brand-gold animate-pulse" />
-              <span className="text-brand-gold text-sm font-medium">California&apos;s Premier Construction Management Agency</span>
-            </motion.div>
+              <span className="inline-block px-4 py-2 bg-brand-gold/10 text-brand-gold rounded-full text-sm font-medium mb-6">
+                California&apos;s Premier Construction Management Agency
+              </span>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="font-display text-5xl md:text-6xl lg:text-7xl text-brand-charcoal leading-[1.1] mb-6"
-            >
-              Full Service{' '}
-              <span className="text-brand-gold italic">Construction Management</span>
-            </motion.h1>
+              <h1 className="font-display text-5xl lg:text-6xl xl:text-7xl font-bold text-brand-charcoal leading-tight mb-6">
+                Your Stress-Free
+                <span className="block text-brand-gold">ADU Journey</span>
+                Starts Here
+              </h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="text-brand-slate/70 text-lg md:text-xl leading-relaxed mb-10 max-w-xl"
-            >
-              From permitting and design to construction and final walkthroughs —
-              we handle every detail so you don&apos;t have to. Your Casita Concierge
-              from start to finish.
-            </motion.p>
+              <p className="text-xl text-brand-slate/60 mb-8 max-w-lg">
+                From permits to keys, we handle every detail. Transform your backyard into a beautiful, income-generating space.
+              </p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="flex flex-wrap gap-4 mb-16"
-            >
-              <Link href="/contact" className="btn-primary flex items-center gap-2 !text-base !py-4 !px-10">
-                Schedule Free Site Walk <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link href="/portfolio" className="inline-flex items-center gap-3 px-6 py-4 text-brand-charcoal/70 hover:text-brand-charcoal transition-colors group">
-                <div className="w-12 h-12 rounded-full border-2 border-brand-charcoal/20 flex items-center justify-center group-hover:border-brand-gold group-hover:bg-brand-gold/10 transition-all">
-                  <Play className="w-4 h-4 ml-0.5" />
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2 bg-brand-gold hover:bg-brand-gold-light text-white font-semibold h-14 px-8 text-lg rounded-lg transition-colors"
+                >
+                  Request a Site Walk <ArrowRight className="w-5 h-5" />
+                </Link>
+                <Link
+                  href="/pre-approved-plans"
+                  className="inline-flex items-center justify-center h-14 px-8 text-lg font-semibold border-2 border-brand-charcoal/20 text-brand-charcoal rounded-lg hover:bg-brand-charcoal/5 transition-colors"
+                >
+                  View Pre-Approved Plans
+                </Link>
+              </div>
+
+              {/* Social proof */}
+              <div className="flex items-center gap-6 mt-10 pt-10 border-t border-brand-charcoal/10">
+                <div className="flex -space-x-3">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div
+                      key={i}
+                      className="w-10 h-10 rounded-full bg-brand-beige border-2 border-brand-cream flex items-center justify-center text-xs font-medium text-brand-slate/60"
+                    >
+                      {String.fromCharCode(64 + i)}
+                    </div>
+                  ))}
                 </div>
-                View Our Work
-              </Link>
-            </motion.div>
-
-            {/* Trust indicators */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
-              className="flex flex-wrap gap-8"
-            >
-              {[
-                { icon: Shield, label: 'Licensed & Insured' },
-                { icon: Clock, label: 'On-Time Delivery' },
-                { icon: Award, label: 'Top Rated' },
-              ].map(({ icon: Icon, label }) => (
-                <div key={label} className="flex items-center gap-2.5">
-                  <Icon className="w-5 h-5 text-brand-gold" />
-                  <span className="text-brand-slate/50 text-sm">{label}</span>
+                <div>
+                  <div className="flex items-center text-brand-gold mb-1">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <Star key={i} className="w-4 h-4 fill-current" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-brand-slate/50">500+ happy homeowners</p>
                 </div>
-              ))}
+              </div>
             </motion.div>
-          </div>
 
-          {/* Right visual */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            className="hidden lg:block relative"
-          >
-            <div className="relative">
-              {/* Main image — completed 750 sqft ADU */}
-              <div className="aspect-[4/5] rounded-3xl border border-brand-charcoal/10 overflow-hidden shadow-2xl">
+            {/* Right image */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="relative hidden lg:block"
+            >
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="https://jahmbtbandibcvfqgnlf.supabase.co/storage/v1/object/public/images/portfolio/749%20SQFT%20DETACHED%20ADU%20COMPLETED%20AERIAL.jpg"
                   alt="Completed 749 sq ft detached ADU by Casita — aerial view"
-                  className="w-full h-full object-cover"
+                  className="w-full h-[600px] object-cover"
                 />
-              </div>
-
-              {/* Floating stat card */}
-              <motion.div
-                animate={{ y: [-5, 5, -5] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -left-8 top-1/3 bg-white rounded-2xl p-5 shadow-2xl border border-brand-charcoal/5"
-              >
-                <div className="text-brand-gold font-display text-3xl">50+</div>
-                <div className="text-brand-slate/50 text-sm">Projects Completed</div>
-              </motion.div>
-
-              {/* Floating rating card */}
-              <motion.div
-                animate={{ y: [5, -5, 5] }}
-                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -right-4 bottom-1/4 bg-white rounded-2xl p-5 shadow-2xl border border-brand-charcoal/5"
-              >
-                <div className="flex gap-1 mb-1">
-                  {[...Array(5)].map((_, i) => (
-                    <span key={i} className="text-brand-gold text-lg">★</span>
-                  ))}
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-charcoal/60 to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6">
+                  <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4">
+                    <p className="text-sm text-brand-slate/60 mb-1">Featured Project</p>
+                    <p className="font-semibold text-brand-charcoal">749 Sq Ft Detached ADU — San Diego</p>
+                    <p className="text-sm text-brand-gold font-medium">Completed 2024</p>
+                  </div>
                 </div>
-                <div className="text-brand-slate/50 text-sm">5-Star Rated</div>
-              </motion.div>
-            </div>
-          </motion.div>
+              </div>
+            </motion.div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* Trust bar */}
+      <section className="bg-brand-charcoal py-8">
+        <div className="max-w-7xl mx-auto px-4 lg:px-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            {trustItems.map((item, i) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                viewport={{ once: true }}
+                className="flex items-center gap-4"
+              >
+                <div className="w-12 h-12 rounded-full bg-brand-gold/20 flex items-center justify-center flex-shrink-0">
+                  <item.icon className="w-6 h-6 text-brand-gold" />
+                </div>
+                <div>
+                  <p className="font-semibold text-white">{item.title}</p>
+                  <p className="text-sm text-white/50">{item.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

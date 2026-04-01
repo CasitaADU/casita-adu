@@ -21,7 +21,7 @@ export default function Process() {
       <div className="max-w-7xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} className="text-center mb-16">
           <span className="text-brand-gold font-semibold text-sm uppercase tracking-widest">Our Process</span>
-          <h2 className="font-display text-4xl md:text-5xl text-brand-dark-teal mt-4 mb-4">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-brand-charcoal mt-4 mb-4">
             How It <span className="text-brand-gold italic">Works</span>
           </h2>
           <p className="text-brand-slate/60 text-lg max-w-2xl mx-auto">Five simple steps from dream to done.</p>
@@ -43,7 +43,7 @@ export default function Process() {
                     {i + 1}
                   </div>
                 </div>
-                <h3 className="font-display text-lg text-brand-dark-teal mb-2">{step.title}</h3>
+                <h3 className="font-display text-lg font-semibold text-brand-charcoal mb-2">{step.title}</h3>
                 <p className="text-sm text-brand-slate/50 leading-relaxed">{step.desc}</p>
               </motion.div>
             ))}

@@ -18,7 +18,7 @@ export default function CTABanner() {
       >
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '30px 30px' }} />
         <div className="relative z-10">
-          <h2 className="font-display text-3xl md:text-5xl text-white mb-4">
+          <h2 className="font-display text-3xl md:text-5xl font-bold text-white mb-4">
             Ready to Build Your <span className="text-brand-gold italic">Dream ADU</span>?
           </h2>
           <p className="text-white/60 text-lg mb-10 max-w-2xl mx-auto">
