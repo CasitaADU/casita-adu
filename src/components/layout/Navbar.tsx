@@ -1,24 +1,39 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Phone } from 'lucide-react';
+import { Menu, X, Phone, ChevronDown } from 'lucide-react';
 
 const navLinks = [
   { label: 'About', href: '/about' },
   { label: 'Services', href: '/services' },
+  { label: 'Process', href: '/process' },
   { label: 'Portfolio', href: '/portfolio' },
   { label: 'Plans', href: '/pre-approved-plans' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Resources', href: '/resources' },
-  { label: 'Financing', href: '/financing' },
+  {
+    label: 'Resources',
+    href: '/resources',
+    children: [
+      { label: 'Resources', href: '/resources' },
+      { label: 'Blog', href: '/blog' },
+      { label: 'Financing', href: '/financing' },
+    ],
+  },
   { label: 'Contact', href: '/contact' },
 ];
 
 const mobileNavLinks = [
   { label: 'Home', href: '/' },
-  ...navLinks.map(l => l.label === 'Plans' ? { label: 'Pre-Approved Plans', href: l.href } : l),
+  { label: 'About', href: '/about' },
+  { label: 'Services', href: '/services' },
+  { label: 'Process', href: '/process' },
+  { label: 'Portfolio', href: '/portfolio' },
+  { label: 'Pre-Approved Plans', href: '/pre-approved-plans' },
+  { label: 'Resources', href: '/resources' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Financing', href: '/financing' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 const rotatingWords = ['ADU', 'Home', 'Construction Management'];
@@ -27,6 +42,8 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [wordIndex, setWordIndex] = useState(0);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -39,6 +56,16 @@ export default function Navbar() {
       setWordIndex((prev) => (prev + 1) % rotatingWords.length);
     }, 2500);
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
@@ -81,15 +108,49 @@ export default function Navbar() {
 
         {/* Desktop Nav Links */}
         <nav className="hidden lg:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className="px-3 py-2 text-[13px] font-medium rounded-lg transition-colors text-brand-slate hover:text-brand-charcoal hover:bg-brand-charcoal/5"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) =>
+            link.children ? (
+              <div key={link.label} ref={dropdownRef} className="relative">
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="flex items-center gap-1 px-3 py-2 text-[13px] font-medium rounded-lg transition-colors text-brand-slate hover:text-brand-charcoal hover:bg-brand-charcoal/5"
+                >
+                  {link.label}
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence>
+                  {dropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 8 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute top-full left-0 mt-1 w-44 bg-white rounded-xl shadow-xl shadow-brand-dark-teal/10 border border-gray-100 py-2 overflow-hidden"
+                    >
+                      {link.children.map((child) => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          onClick={() => setDropdownOpen(false)}
+                          className="block px-4 py-2.5 text-[13px] font-medium text-brand-slate hover:text-brand-charcoal hover:bg-brand-beige transition-colors"
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="px-3 py-2 text-[13px] font-medium rounded-lg transition-colors text-brand-slate hover:text-brand-charcoal hover:bg-brand-charcoal/5"
+              >
+                {link.label}
+              </Link>
+            )
+          )}
           <Link href="/contact" className="ml-2 btn-primary !py-2 !px-5 !text-xs">
             Free Site Walk
           </Link>
