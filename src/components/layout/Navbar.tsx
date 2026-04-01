@@ -78,31 +78,26 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 lg:px-6 flex items-center justify-between">
         {/* Logo + Rotating Text */}
-        <Link href="/" className="flex items-center gap-2 group shrink-0">
+        <Link href="/" className="flex items-center gap-3 group shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/casita-logo.png"
             alt="Casita"
-            className="h-9 md:h-10 w-auto object-contain transition-all duration-300"
+            className="h-12 md:h-14 w-auto object-contain transition-all duration-300"
           />
-          <div className="flex items-baseline gap-1.5">
-            <span className="font-display text-lg tracking-tight text-brand-charcoal">
-              CASITA
-            </span>
-            <div className="relative h-5 overflow-hidden" style={{ minWidth: '11rem' }}>
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={rotatingWords[wordIndex]}
-                  initial={{ y: 18, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -18, opacity: 0 }}
-                  transition={{ duration: 0.4, ease: 'easeInOut' }}
-                  className="absolute left-0 font-display text-sm text-brand-gold whitespace-nowrap"
-                >
-                  {rotatingWords[wordIndex]}
-                </motion.span>
-              </AnimatePresence>
-            </div>
+          <div className="relative h-5 overflow-hidden" style={{ minWidth: '11rem' }}>
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={rotatingWords[wordIndex]}
+                initial={{ y: 18, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -18, opacity: 0 }}
+                transition={{ duration: 0.4, ease: 'easeInOut' }}
+                className="absolute left-0 font-display text-sm text-brand-gold whitespace-nowrap"
+              >
+                {rotatingWords[wordIndex]}
+              </motion.span>
+            </AnimatePresence>
           </div>
         </Link>
 
@@ -187,10 +182,9 @@ export default function Navbar() {
             <div className="flex flex-col h-full">
               {/* Menu Header */}
               <div className="flex items-center justify-between px-6 py-4">
-                <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center gap-2">
+                <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/images/casita-logo.png" alt="Casita" className="h-10 w-auto object-contain brightness-0 invert" />
-                  <span className="font-display text-xl text-white">CASITA</span>
+                  <img src="/images/casita-logo.png" alt="Casita" className="h-14 w-auto object-contain brightness-0 invert" />
                 </Link>
                 <button onClick={() => setIsOpen(false)} className="p-2 text-white/70 hover:text-white rounded-lg">
                   <X className="w-7 h-7" />
