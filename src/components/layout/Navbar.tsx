@@ -43,12 +43,31 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [wordIndex, setWordIndex] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [darkHero, setDarkHero] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handler);
     return () => window.removeEventListener('scroll', handler);
+  }, []);
+
+  // Auto-detect if hero section behind navbar has dark background
+  useEffect(() => {
+    const main = document.querySelector('main');
+    if (main) {
+      const firstSection = main.querySelector('section');
+      if (firstSection) {
+        const bg = getComputedStyle(firstSection).backgroundColor;
+        const match = bg.match(/\d+/g);
+        if (match) {
+          const [r, g, b] = match.map(Number);
+          // If luminance is low, it's a dark background
+          const luminance = (0.299 * r + 0.587 * g + 0.114 * b);
+          setDarkHero(luminance < 128);
+        }
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -68,6 +87,9 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Whether nav text should be light (over dark hero, not yet scrolled)
+  const lightText = darkHero && !scrolled;
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
@@ -83,10 +105,10 @@ export default function Navbar() {
           <img
             src="/images/casita-logo.png"
             alt="Casita"
-            className="h-12 md:h-14 w-auto object-contain transition-all duration-300"
+            className={`h-12 md:h-14 w-auto object-contain transition-all duration-300 ${lightText ? 'brightness-0 invert' : ''}`}
           />
           <div className="flex items-baseline gap-1.5">
-            <span className="font-display text-lg tracking-tight text-brand-charcoal">
+            <span className={`font-display text-lg tracking-tight transition-colors duration-500 ${lightText ? 'text-white' : 'text-brand-charcoal'}`}>
               CASITA
             </span>
             <div className="relative h-5 overflow-hidden" style={{ minWidth: '11rem' }}>
@@ -97,7 +119,7 @@ export default function Navbar() {
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: -18, opacity: 0 }}
                   transition={{ duration: 0.4, ease: 'easeInOut' }}
-                  className="absolute left-0 font-display text-sm text-brand-gold whitespace-nowrap"
+                  className={`absolute left-0 font-display text-sm whitespace-nowrap transition-colors duration-500 ${lightText ? 'text-brand-gold/80' : 'text-brand-gold'}`}
                 >
                   {rotatingWords[wordIndex]}
                 </motion.span>
@@ -113,7 +135,7 @@ export default function Navbar() {
               <div key={link.label} ref={dropdownRef} className="relative">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="flex items-center gap-1 px-3 py-2 text-[13px] font-medium rounded-lg transition-colors text-brand-slate hover:text-brand-charcoal hover:bg-brand-charcoal/5"
+                  className={`flex items-center gap-1 px-3 py-2 text-[13px] font-medium rounded-lg transition-colors ${lightText ? 'text-white/80 hover:text-white hover:bg-white/10' : 'text-brand-slate hover:text-brand-charcoal hover:bg-brand-charcoal/5'}`}
                 >
                   {link.label}
                   <ChevronDown className={`w-3.5 h-3.5 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
@@ -145,7 +167,7 @@ export default function Navbar() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="px-3 py-2 text-[13px] font-medium rounded-lg transition-colors text-brand-slate hover:text-brand-charcoal hover:bg-brand-charcoal/5"
+                className={`px-3 py-2 text-[13px] font-medium rounded-lg transition-colors ${lightText ? 'text-white/80 hover:text-white hover:bg-white/10' : 'text-brand-slate hover:text-brand-charcoal hover:bg-brand-charcoal/5'}`}
               >
                 {link.label}
               </Link>
@@ -160,14 +182,14 @@ export default function Navbar() {
         <div className="flex lg:hidden items-center gap-3">
           <a
             href="tel:6198912065"
-            className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-brand-charcoal"
+            className={`hidden sm:flex items-center gap-1.5 text-sm font-medium transition-colors ${lightText ? 'text-white' : 'text-brand-charcoal'}`}
           >
             <Phone className="w-4 h-4" />
             (619) 891-2065
           </a>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="p-2 rounded-lg transition-colors text-brand-charcoal hover:bg-brand-charcoal/5"
+            className={`p-2 rounded-lg transition-colors ${lightText ? 'text-white hover:bg-white/10' : 'text-brand-charcoal hover:bg-brand-charcoal/5'}`}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
