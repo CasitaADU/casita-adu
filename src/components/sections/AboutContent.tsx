@@ -7,7 +7,7 @@ const team = [
   { name: 'Winston Bodkin', title: 'Founder & COO', email: 'Winston@Casitaadu.com', desc: 'Oversees overall company vision, operations, and strategic direction.', photo: '/images/team/Winston.png' },
   { name: 'Sondra Hooley', title: 'Co-Founder & CRO', email: 'Sondra@Casitaadu.com', desc: 'Sales Director leading client acquisition, relationship management, and sales strategy.', photo: '/images/team/Sondra.jpg' },
   { name: 'Jon Melicharek', title: 'CEO', email: 'Jon@Casitaadu.com', desc: 'Director of Strategic Growth driving new partnerships, market growth, and revenue opportunities.', photo: '/images/team/Jonathan.jpg' },
-  { name: 'Olivia Jarvis', title: 'Social Media Manager', email: 'Olivia@Casitaadu.com', desc: 'Overseeing content strategy, community engagement, and brand voice across platforms.' },
+  { name: 'Jenny Marroquin', title: 'Customer Service & Designer', email: 'Jenny@Casitaadu.com', desc: 'Dedicated to delivering exceptional client experiences while contributing creative design solutions to every project.' },
   { name: 'Samuel Duron', title: 'Project Manager & Designer', email: 'Samuel@Casitaadu.com', desc: 'Designer and Project Manager for measurements, design planning, and overall project management.' },
   { name: 'Francisco Herrera', title: 'Project Manager & Designer', email: 'Francisco@Casitaadu.com', desc: 'Designer and Project Manager for measurements, design planning, and overall project management.' },
 ];
