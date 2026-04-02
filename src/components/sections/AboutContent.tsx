@@ -4,9 +4,9 @@ import { motion } from 'framer-motion';
 import { Users, Award, Heart, Shield } from 'lucide-react';
 
 const team = [
-  { name: 'Winston Bodkin', title: 'Founder & COO', email: 'Winston@Casitaadu.com', desc: 'Oversees overall company vision, operations, and strategic direction.' },
-  { name: 'Sondra Hooley', title: 'Co-Founder & CRO', email: 'Sondra@Casitaadu.com', desc: 'Sales Director leading client acquisition, relationship management, and sales strategy.' },
-  { name: 'Jon Melicharek', title: 'CEO', email: 'Jon@Casitaadu.com', desc: 'Director of Strategic Growth driving new partnerships, market growth, and revenue opportunities.' },
+  { name: 'Winston Bodkin', title: 'Founder & COO', email: 'Winston@Casitaadu.com', desc: 'Oversees overall company vision, operations, and strategic direction.', photo: '/images/team/Winston.png' },
+  { name: 'Sondra Hooley', title: 'Co-Founder & CRO', email: 'Sondra@Casitaadu.com', desc: 'Sales Director leading client acquisition, relationship management, and sales strategy.', photo: '/images/team/Sondra.jpg' },
+  { name: 'Jon Melicharek', title: 'CEO', email: 'Jon@Casitaadu.com', desc: 'Director of Strategic Growth driving new partnerships, market growth, and revenue opportunities.', photo: '/images/team/Jonathan.jpg' },
   { name: 'Olivia Jarvis', title: 'Social Media Manager', email: 'Olivia@Casitaadu.com', desc: 'Overseeing content strategy, community engagement, and brand voice across platforms.' },
   { name: 'Samuel Duron', title: 'Project Manager & Designer', email: 'Samuel@Casitaadu.com', desc: 'Designer and Project Manager for measurements, design planning, and overall project management.' },
   { name: 'Francisco Herrera', title: 'Project Manager & Designer', email: 'Francisco@Casitaadu.com', desc: 'Designer and Project Manager for measurements, design planning, and overall project management.' },
@@ -64,9 +64,16 @@ export default function AboutContent() {
             {team.map((member, i) => (
               <motion.div key={member.name} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
                 className="card p-8 text-center group">
-                <div className="w-24 h-24 mx-auto mb-5 rounded-2xl bg-gradient-to-br from-brand-mid-teal/20 to-brand-dark-teal/10 flex items-center justify-center group-hover:from-brand-gold/20 group-hover:to-brand-gold/10 transition-all">
-                  <Users className="w-10 h-10 text-brand-mid-teal/40 group-hover:text-brand-gold/60 transition-colors" />
-                </div>
+                {member.photo ? (
+                  <div className="w-28 h-28 mx-auto mb-5 rounded-full overflow-hidden ring-4 ring-brand-gold/20 group-hover:ring-brand-gold/40 transition-all">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={member.photo} alt={member.name} className="w-full h-full object-cover" />
+                  </div>
+                ) : (
+                  <div className="w-28 h-28 mx-auto mb-5 rounded-full bg-gradient-to-br from-brand-mid-teal/20 to-brand-dark-teal/10 flex items-center justify-center group-hover:from-brand-gold/20 group-hover:to-brand-gold/10 transition-all">
+                    <Users className="w-10 h-10 text-brand-mid-teal/40 group-hover:text-brand-gold/60 transition-colors" />
+                  </div>
+                )}
                 <h3 className="font-display text-xl text-brand-dark-teal">{member.name}</h3>
                 <p className="text-brand-gold text-sm font-semibold mb-3">{member.title}</p>
                 <p className="text-sm text-brand-slate/50 leading-relaxed mb-4">{member.desc}</p>
