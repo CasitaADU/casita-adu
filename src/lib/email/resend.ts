@@ -11,5 +11,5 @@ export function getResend(): Resend {
   return _resend;
 }
 
-export const FROM_EMAIL = 'Casita <onboarding@resend.dev>';
+export const FROM_EMAIL = 'Casita <hello@casitaadu.com>';
 export const ADMIN_EMAIL = 'info@casitaadu.com';
