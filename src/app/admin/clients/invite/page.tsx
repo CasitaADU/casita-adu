@@ -65,7 +65,21 @@ export default function ClientInvitePage() {
     });
 
     if (res.ok) {
-      toast.success('Invite sent successfully!');
+      const data = await res.json().catch(() => ({}));
+      if (data.email_sent) {
+        toast.success('Invite sent successfully!');
+      } else {
+        toast.success(
+          (t) => (
+            <div>
+              <p className="font-medium">Invite created! Email could not be sent.</p>
+              <p className="text-xs mt-1 text-gray-500">Share this link manually:</p>
+              <input className="text-xs mt-1 w-full bg-gray-100 p-1 rounded" readOnly value={data.invite_url || ''} onClick={(e) => { (e.target as HTMLInputElement).select(); navigator.clipboard.writeText(data.invite_url || ''); toast.dismiss(t.id); toast('Link copied!'); }} />
+            </div>
+          ),
+          { duration: 15000 }
+        );
+      }
       setEmail('');
       setProjectId('');
       load();

@@ -47,16 +47,27 @@ export async function POST(request: NextRequest) {
     const inviteUrl = `${siteUrl}/register?token=${invite_token}`;
     const template = clientInviteEmail(email, inviteUrl);
 
-    const resend = getResend();
-    await resend.emails.send({
-      from: FROM_EMAIL,
-      to: email,
-      subject: template.subject,
-      html: template.html,
-    });
+    let emailSent = false;
+    try {
+      const resend = getResend();
+      const { error: emailError } = await resend.emails.send({
+        from: FROM_EMAIL,
+        to: email,
+        subject: template.subject,
+        html: template.html,
+      });
+      if (emailError) {
+        console.error('Resend email error:', emailError);
+      } else {
+        emailSent = true;
+      }
+    } catch (emailErr) {
+      console.error('Email send failed:', emailErr);
+    }
 
-    return NextResponse.json({ success: true, invite_id: invite.id });
-  } catch {
+    return NextResponse.json({ success: true, invite_id: invite.id, email_sent: emailSent, invite_url: inviteUrl });
+  } catch (err) {
+    console.error('Invite error:', err);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
