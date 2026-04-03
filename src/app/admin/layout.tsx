@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import {
-  LayoutDashboard, FolderOpen, HardHat, FileText, Users, MessageSquare, Settings, LogOut, Menu, X, ChevronRight, Image,
+  LayoutDashboard, FolderOpen, HardHat, FileText, Users, MessageSquare, Settings, LogOut, Menu, X, ChevronRight, Image, UserPlus,
 } from 'lucide-react';
 
 const sidebarLinks = [
@@ -14,6 +14,7 @@ const sidebarLinks = [
   { label: 'Active Projects', href: '/admin/projects', icon: HardHat },
   { label: 'Blog Posts', href: '/admin/blog', icon: FileText },
   { label: 'Clients', href: '/admin/clients', icon: Users },
+  { label: 'Invite Client', href: '/admin/clients/invite', icon: UserPlus },
   { label: 'Messages', href: '/admin/messages', icon: MessageSquare },
   { label: 'Leads', href: '/admin/leads', icon: FolderOpen },
 ];

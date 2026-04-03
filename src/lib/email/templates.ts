@@ -284,3 +284,75 @@ export function adminNewLeadEmail(lead: {
     `),
   };
 }
+
+// ============================================
+// 6. CLIENT INVITE — Portal Access
+// ============================================
+export function clientInviteEmail(name: string, inviteUrl: string) {
+  return {
+    subject: `${name}, you're invited to your Casita Client Portal`,
+    html: baseLayout(`
+      <h1 style="margin:0 0 16px;font-size:28px;color:#0C3B2E;font-weight:700;">
+        Welcome to Your Client Portal, ${name}!
+      </h1>
+      <p style="color:#64748b;font-size:16px;line-height:1.7;margin:0 0 20px;">
+        The Casita team has invited you to access your personal client portal. From here you can
+        track your project&rsquo;s progress, view documents, communicate with your project team,
+        and stay up to date on every milestone.
+      </p>
+      <div style="background:#f8f6f0;border-radius:12px;padding:20px;margin:0 0 24px;border-left:4px solid #C8A84B;">
+        <p style="margin:0;color:#0C3B2E;font-size:15px;font-weight:600;">What you&rsquo;ll find in your portal:</p>
+        <ul style="color:#64748b;font-size:14px;line-height:2;padding-left:20px;margin:8px 0 0;">
+          <li>Real-time project progress and photo updates</li>
+          <li>Important documents, permits, and contracts</li>
+          <li>Direct messaging with your project team</li>
+          <li>Payment milestones and schedule</li>
+        </ul>
+      </div>
+      <div style="text-align:center;margin-top:28px;">
+        <a href="${inviteUrl}" style="display:inline-block;background:#C8A84B;color:#0C3B2E;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:700;font-size:15px;">
+          Create Your Account
+        </a>
+      </div>
+      <p style="color:#94a3b8;font-size:13px;text-align:center;margin-top:20px;">
+        This invite link will expire in 7 days. If you have any questions, contact us at
+        <a href="mailto:info@casitaadu.com" style="color:#1A7A6E;">info@casitaadu.com</a>.
+      </p>
+    `),
+  };
+}
+
+// ============================================
+// 7. PROJECT UPDATE — Notification
+// ============================================
+export function projectUpdateNotification(
+  clientName: string,
+  projectTitle: string,
+  updateTitle: string,
+  updateDescription: string
+) {
+  return {
+    subject: `New update on ${projectTitle} — Casita`,
+    html: baseLayout(`
+      <h1 style="margin:0 0 16px;font-size:28px;color:#0C3B2E;font-weight:700;">
+        New Update on Your Project
+      </h1>
+      <p style="color:#64748b;font-size:16px;line-height:1.7;margin:0 0 20px;">
+        Hi ${clientName}, your project team just posted an update for
+        <strong style="color:#0C3B2E;">${projectTitle}</strong>.
+      </p>
+      <div style="background:#f8f6f0;border-radius:12px;padding:24px;margin:0 0 24px;">
+        <p style="margin:0 0 8px;color:#0C3B2E;font-weight:700;font-size:17px;">${updateTitle}</p>
+        <p style="margin:0;color:#64748b;font-size:15px;line-height:1.7;">${updateDescription}</p>
+      </div>
+      <div style="text-align:center;margin-top:28px;">
+        <a href="${siteUrl}/portal" style="display:inline-block;background:#C8A84B;color:#0C3B2E;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:700;font-size:15px;">
+          View Update in Portal
+        </a>
+      </div>
+      <p style="color:#94a3b8;font-size:13px;text-align:center;margin-top:20px;">
+        Log in to your client portal to see photos, documents, and more details about this update.
+      </p>
+    `),
+  };
+}

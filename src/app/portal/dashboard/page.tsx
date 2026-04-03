@@ -2,16 +2,22 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { HardHat, FileText, MessageSquare, Clock, CheckCircle2, AlertCircle, ArrowRight, Calendar } from 'lucide-react';
+import { FileText, MessageSquare, HardHat, ChevronDown, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import { format } from 'date-fns';
-import type { ActiveProject, ProgressUpdate } from '@/types';
+import { motion } from 'framer-motion';
+import type { ActiveProject } from '@/types';
+import ProjectInfoHeader from '@/components/portal/ProjectInfoHeader';
+import ProgressHouse from '@/components/portal/ProgressHouse';
+import UpdatesFeed from '@/components/portal/UpdatesFeed';
+import PaymentTracker from '@/components/portal/PaymentTracker';
 
 export default function ClientDashboard() {
   const [projects, setProjects] = useState<ActiveProject[]>([]);
-  const [updates, setUpdates] = useState<ProgressUpdate[]>([]);
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [docCount, setDocCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [userName, setUserName] = useState('');
 
   useEffect(() => {
     const load = async () => {
@@ -19,108 +25,203 @@ export default function ClientDashboard() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      const { data: proj } = await supabase.from('active_projects').select('*').eq('client_id', user.id).order('created_at', { ascending: false });
-      setProjects(proj || []);
+      // Get user profile name
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('full_name')
+        .eq('id', user.id)
+        .single();
+      if (profile?.full_name) setUserName(profile.full_name.split(' ')[0]);
 
+      // Fetch projects
+      const { data: proj } = await supabase
+        .from('active_projects')
+        .select('*')
+        .eq('client_id', user.id)
+        .order('created_at', { ascending: false });
+
+      setProjects(proj || []);
       if (proj && proj.length > 0) {
+        setSelectedProjectId(proj[0].id);
+
         const projectIds = proj.map(p => p.id);
-        const { data: upd } = await supabase.from('progress_updates').select('*').in('project_id', projectIds).order('created_at', { ascending: false }).limit(5);
-        setUpdates(upd || []);
-        const { count: mc } = await supabase.from('client_messages').select('id', { count: 'exact', head: true }).in('project_id', projectIds).eq('read', false).eq('sender_role', 'admin');
-        setUnreadMessages(mc || 0);
-        const { count: dc } = await supabase.from('client_documents').select('id', { count: 'exact', head: true }).in('project_id', projectIds);
-        setDocCount(dc || 0);
+
+        // Fetch counts in parallel
+        const [msgResult, docResult] = await Promise.all([
+          supabase
+            .from('client_messages')
+            .select('id', { count: 'exact', head: true })
+            .in('project_id', projectIds)
+            .eq('read', false)
+            .eq('sender_role', 'admin'),
+          supabase
+            .from('client_documents')
+            .select('id', { count: 'exact', head: true })
+            .in('project_id', projectIds),
+        ]);
+
+        setUnreadMessages(msgResult.count || 0);
+        setDocCount(docResult.count || 0);
       }
+
+      setLoading(false);
     };
     load();
   }, []);
 
-  const statusIcon = (status: string) => {
-    if (status === 'completed') return <CheckCircle2 className="w-5 h-5 text-emerald-500" />;
-    if (['construction', 'inspection'].includes(status)) return <HardHat className="w-5 h-5 text-amber-500" />;
-    return <Clock className="w-5 h-5 text-blue-500" />;
-  };
+  const selectedProject = projects.find(p => p.id === selectedProjectId) || null;
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-24">
+        <div className="w-8 h-8 border-2 border-brand-dark-teal/20 border-t-brand-dark-teal rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: 'easeOut' }}
+    >
+      {/* Welcome heading */}
       <div className="mb-8">
-        <h1 className="font-display text-3xl text-brand-dark-teal mb-2">Welcome to Your Dashboard</h1>
-        <p className="text-brand-slate/50">Track your ADU project progress in real time, 24/7.</p>
+        <h1 className="font-display text-3xl text-brand-dark-teal mb-2">
+          Welcome back{userName ? `, ${userName}` : ''}
+        </h1>
+        <p className="text-brand-slate/50">
+          Track your ADU project progress in real time, 24/7.
+        </p>
       </div>
 
-      {/* Quick stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        {[
-          { label: 'Active Projects', value: projects.filter(p => p.status !== 'completed').length, icon: HardHat, color: 'bg-amber-50 text-amber-600' },
-          { label: 'Documents', value: docCount, icon: FileText, color: 'bg-blue-50 text-blue-600' },
-          { label: 'Unread Messages', value: unreadMessages, icon: MessageSquare, color: 'bg-purple-50 text-purple-600' },
-          { label: 'Updates', value: updates.length, icon: AlertCircle, color: 'bg-emerald-50 text-emerald-600' },
-        ].map(s => (
-          <div key={s.label} className="portal-card flex items-center gap-4">
-            <div className={`w-12 h-12 rounded-xl ${s.color} flex items-center justify-center`}><s.icon className="w-5 h-5" /></div>
-            <div><p className="font-display text-2xl text-brand-dark-teal">{s.value}</p><p className="text-xs text-brand-slate/40">{s.label}</p></div>
+      {/* Multi-project selector */}
+      {projects.length > 1 && (
+        <div className="mb-6">
+          <label className="block text-xs font-medium text-brand-slate/40 mb-1.5">
+            Select Project
+          </label>
+          <div className="relative w-full max-w-xs">
+            <select
+              value={selectedProjectId || ''}
+              onChange={(e) => setSelectedProjectId(e.target.value)}
+              className="w-full appearance-none bg-white border border-gray-200 rounded-xl px-4 py-2.5 pr-10 text-sm font-medium text-brand-dark-teal focus:outline-none focus:ring-2 focus:ring-brand-mid-teal/30 focus:border-brand-mid-teal"
+            >
+              {projects.map(p => (
+                <option key={p.id} value={p.id}>
+                  {p.title} &mdash; {p.address}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="w-4 h-4 text-brand-slate/40 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
-        ))}
-      </div>
+        </div>
+      )}
 
-      <div className="grid lg:grid-cols-3 gap-8">
-        {/* Projects */}
-        <div className="lg:col-span-2 space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="font-display text-xl text-brand-dark-teal">Your Projects</h2>
-            <Link href="/portal/project" className="text-sm text-brand-mid-teal hover:text-brand-dark-teal flex items-center gap-1">View All <ArrowRight className="w-3 h-3" /></Link>
+      {/* Empty state */}
+      {projects.length === 0 && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+          className="portal-card text-center py-16 px-8"
+        >
+          <div className="w-16 h-16 rounded-2xl bg-brand-dark-teal/5 flex items-center justify-center mx-auto mb-5">
+            <HardHat className="w-8 h-8 text-brand-slate/25" />
           </div>
-          {projects.length === 0 && (
-            <div className="portal-card text-center py-12">
-              <HardHat className="w-12 h-12 text-brand-slate/20 mx-auto mb-4" />
-              <p className="text-brand-slate/40">No projects assigned yet. Your project will appear here once it begins.</p>
-            </div>
-          )}
-          {projects.map(p => (
-            <div key={p.id} className="portal-card">
-              <div className="flex items-start gap-4">
-                {statusIcon(p.status)}
-                <div className="flex-1">
-                  <h3 className="font-semibold text-brand-dark-teal">{p.title}</h3>
-                  <p className="text-sm text-brand-slate/40 mb-3">{p.address}</p>
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="flex-1 h-2.5 bg-gray-100 rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-brand-mid-teal to-brand-light-teal rounded-full transition-all duration-500" style={{ width: `${p.progress_percent}%` }} />
+          <h2 className="font-display text-xl text-brand-dark-teal mb-2">
+            No projects yet
+          </h2>
+          <p className="text-brand-slate/40 max-w-md mx-auto">
+            Your ADU project will appear here once it begins. In the meantime,
+            feel free to explore the portal or reach out to our team with any questions.
+          </p>
+        </motion.div>
+      )}
+
+      {/* Single / selected project view */}
+      {selectedProject && (
+        <>
+          {/* Project Info Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: 0.05 }}
+          >
+            <ProjectInfoHeader projectId={selectedProject.id} />
+          </motion.div>
+
+          {/* Two-column grid */}
+          <div className="grid lg:grid-cols-5 gap-8 mt-8">
+            {/* Left column (~60%) */}
+            <motion.div
+              className="lg:col-span-3 space-y-8"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, delay: 0.1 }}
+            >
+              <ProgressHouse progressPercent={selectedProject.progress_percent} />
+              <UpdatesFeed projectId={selectedProject.id} />
+            </motion.div>
+
+            {/* Right column (~40%) */}
+            <motion.div
+              className="lg:col-span-2 space-y-8"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, delay: 0.15 }}
+            >
+              <PaymentTracker projectId={selectedProject.id} />
+
+              {/* Quick Links card */}
+              <div className="portal-card">
+                <h3 className="font-display text-lg text-brand-dark-teal mb-4">
+                  Quick Links
+                </h3>
+                <div className="space-y-3">
+                  <Link
+                    href="/portal/documents"
+                    className="flex items-center justify-between p-3 rounded-xl bg-gray-50 hover:bg-brand-dark-teal/5 transition-colors group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center">
+                        <FileText className="w-4 h-4 text-blue-600" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-brand-dark-teal">Documents</p>
+                        <p className="text-xs text-brand-slate/40">
+                          {docCount} {docCount === 1 ? 'file' : 'files'} available
+                        </p>
+                      </div>
                     </div>
-                    <span className="text-sm font-semibold text-brand-dark-teal">{p.progress_percent}%</span>
-                  </div>
-                  <div className="flex items-center gap-4 text-xs text-brand-slate/40">
-                    <span className={`px-2.5 py-1 rounded-lg border phase-${p.status} capitalize font-medium`}>{p.status}</span>
-                    {p.estimated_completion && <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />Est. {format(new Date(p.estimated_completion), 'MMM yyyy')}</span>}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+                    <ArrowRight className="w-4 h-4 text-brand-slate/30 group-hover:text-brand-mid-teal transition-colors" />
+                  </Link>
 
-        {/* Recent Updates */}
-        <div>
-          <h2 className="font-display text-xl text-brand-dark-teal mb-4">Recent Updates</h2>
-          {updates.length === 0 && <div className="portal-card text-center py-8"><p className="text-brand-slate/30 text-sm">No updates yet.</p></div>}
-          <div className="space-y-3">
-            {updates.map(u => (
-              <div key={u.id} className="portal-card !p-4">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className={`w-2 h-2 rounded-full ${u.phase === 'construction' ? 'bg-amber-400' : u.phase === 'completed' ? 'bg-emerald-400' : 'bg-blue-400'}`} />
-                  <span className="text-xs text-brand-slate/40 capitalize">{u.phase}</span>
-                  <span className="text-xs text-brand-slate/30 ml-auto">{format(new Date(u.created_at), 'MMM d')}</span>
+                  <Link
+                    href="/portal/messages"
+                    className="flex items-center justify-between p-3 rounded-xl bg-gray-50 hover:bg-brand-dark-teal/5 transition-colors group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-lg bg-purple-50 flex items-center justify-center">
+                        <MessageSquare className="w-4 h-4 text-purple-600" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-brand-dark-teal">Messages</p>
+                        <p className="text-xs text-brand-slate/40">
+                          {unreadMessages > 0
+                            ? `${unreadMessages} unread ${unreadMessages === 1 ? 'message' : 'messages'}`
+                            : 'No unread messages'}
+                        </p>
+                      </div>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-brand-slate/30 group-hover:text-brand-mid-teal transition-colors" />
+                  </Link>
                 </div>
-                <p className="font-semibold text-sm text-brand-dark-teal">{u.title}</p>
-                <p className="text-xs text-brand-slate/40 mt-1 line-clamp-2">{u.description}</p>
-                {u.images?.length > 0 && <div className="flex gap-1 mt-2">{u.images.slice(0, 3).map((img, i) => (
-                  <div key={i} className="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden"><img src={img} alt="" className="w-full h-full object-cover" /></div>
-                ))}</div>}
               </div>
-            ))}
+            </motion.div>
           </div>
-        </div>
-      </div>
-    </div>
+        </>
+      )}
+    </motion.div>
   );
 }

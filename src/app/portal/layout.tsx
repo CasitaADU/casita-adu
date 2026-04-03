@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { LayoutDashboard, FolderOpen, FileText, MessageSquare, Bell, LogOut, Menu, X, User } from 'lucide-react';
+import { LayoutDashboard, FolderOpen, FileText, MessageSquare, Bell, LogOut, Menu, X, User, Settings } from 'lucide-react';
 
 const navLinks = [
   { label: 'Dashboard', href: '/portal/dashboard', icon: LayoutDashboard },
   { label: 'My Projects', href: '/portal/project', icon: FolderOpen },
   { label: 'Documents', href: '/portal/documents', icon: FileText },
   { label: 'Messages', href: '/portal/messages', icon: MessageSquare },
+  { label: 'Settings', href: '/portal/settings', icon: Settings },
 ];
 
 export default function PortalLayout({ children }: { children: React.ReactNode }) {
