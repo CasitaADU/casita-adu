@@ -1,5 +1,24 @@
 import { createServerClient } from '@supabase/ssr';
+import { createClient } from '@supabase/supabase-js';
 import { NextResponse, type NextRequest } from 'next/server';
+
+// Service role client for trusted role checks (bypasses RLS)
+function getServiceClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
+
+async function getUserRole(userId: string): Promise<string | null> {
+  const service = getServiceClient();
+  const { data } = await service
+    .from('profiles')
+    .select('role')
+    .eq('id', userId)
+    .single();
+  return data?.role || null;
+}
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
@@ -39,14 +58,9 @@ export async function updateSession(request: NextRequest) {
       url.searchParams.set('redirect', path);
       return NextResponse.redirect(url);
     }
-    // Check admin role
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single();
-
-    if (profile?.role !== 'admin') {
+    // Check admin role using service role (bypasses RLS)
+    const role = await getUserRole(user.id);
+    if (role !== 'admin') {
       const url = request.nextUrl.clone();
       url.pathname = '/';
       return NextResponse.redirect(url);
@@ -65,14 +79,9 @@ export async function updateSession(request: NextRequest) {
 
   // Redirect logged-in users away from login/register
   if ((path === '/login' || path === '/register') && user) {
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single();
-
+    const role = await getUserRole(user.id);
     const url = request.nextUrl.clone();
-    url.pathname = profile?.role === 'admin' ? '/admin' : '/portal/dashboard';
+    url.pathname = role === 'admin' ? '/admin' : '/portal/dashboard';
     return NextResponse.redirect(url);
   }
 
