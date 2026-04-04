@@ -60,15 +60,15 @@ export default function Hero() {
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="https://jahmbtbandibcvfqgnlf.supabase.co/storage/v1/object/public/images/portfolio/749%20SQFT%20DETACHED%20ADU%20COMPLETED%20AERIAL.jpg"
-                  alt="Completed 749 sq ft detached ADU by Casita — aerial view"
+                  src="/images/portfolio/p750-detached-vista/01.jpg"
+                  alt="Completed 750 sq ft detached ADU by Casita in Vista, CA"
                   className="w-full h-[600px] object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-charcoal/60 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6">
                   <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4">
                     <p className="text-sm text-brand-slate/60 mb-1">Featured Project</p>
-                    <p className="font-semibold text-brand-charcoal">749 Sq Ft Detached ADU — San Diego</p>
+                    <p className="font-semibold text-brand-charcoal">750 Sq Ft Detached ADU — Vista, CA</p>
                     <p className="text-sm text-brand-gold font-medium">Completed 2024</p>
                   </div>
                 </div>

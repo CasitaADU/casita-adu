@@ -22,7 +22,7 @@ const services = [
       'Utility connections',
       'Final inspections & permits',
     ],
-    image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80',
+    image: '/images/portfolio/p996-abovegarage-vista/01.jpg',
   },
   {
     id: 'garage',
@@ -39,7 +39,7 @@ const services = [
       'HVAC installation',
       'Exterior updates',
     ],
-    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80',
+    image: '/images/portfolio/p692-conversion-vista/01.jpg',
   },
   {
     id: 'permitting',
@@ -56,7 +56,7 @@ const services = [
       'City liaison services',
       'Inspection coordination',
     ],
-    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=80',
+    image: '/images/portfolio/p1050-attached-sd/01.jpg',
   },
   {
     id: 'custom',
@@ -73,7 +73,7 @@ const services = [
       'Pool houses & cabanas',
       'Multi-unit developments',
     ],
-    image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80',
+    image: '/images/portfolio/p2117-remodel-escondido/01.jpg',
   },
 ];
 
