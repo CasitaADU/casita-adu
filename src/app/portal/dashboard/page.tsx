@@ -160,7 +160,12 @@ export default function ClientDashboard() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, delay: 0.1 }}
             >
-              <ProgressHouse progressPercent={selectedProject.progress_percent} />
+              <ProgressHouse
+                progressPercent={selectedProject.progress_percent}
+                currentPhase={selectedProject.current_phase}
+                hasPhase1={selectedProject.has_phase1 ?? true}
+                hasPhase2={selectedProject.has_phase2 ?? true}
+              />
               <UpdatesFeed projectId={selectedProject.id} />
             </motion.div>
 

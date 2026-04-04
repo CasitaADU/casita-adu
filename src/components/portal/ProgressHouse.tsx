@@ -4,6 +4,9 @@ import { motion } from 'framer-motion';
 
 interface ProgressHouseProps {
   progressPercent: number;
+  currentPhase?: string;
+  hasPhase1?: boolean;
+  hasPhase2?: boolean;
 }
 
 const GOLD = '#C8A84B';
@@ -12,312 +15,291 @@ const MID_TEAL = '#1B6B54';
 const CREAM = '#F5F0E8';
 const LIGHT_GRAY = '#E8E4DC';
 
+// Phase 1 milestones (Design & Permitting)
+const phase1Steps = [
+  { label: 'Site Assessment', range: [0, 8] },
+  { label: 'Design', range: [8, 20] },
+  { label: 'Plan Submission', range: [20, 30] },
+  { label: 'Permitting', range: [30, 45] },
+  { label: 'Approved', range: [45, 50] },
+];
+
+// Phase 2 milestones (Construction)
+const phase2Steps = [
+  { label: 'Foundation', range: [50, 58] },
+  { label: 'Framing', range: [58, 68] },
+  { label: 'Rough-In', range: [68, 75] },
+  { label: 'Exterior', range: [75, 82] },
+  { label: 'Interior', range: [82, 90] },
+  { label: 'Final Inspection', range: [90, 95] },
+  { label: 'Complete', range: [95, 100] },
+];
+
 function getStageLabel(percent: number): string {
   if (percent <= 0) return 'Not Started';
-  if (percent <= 15) return 'Foundation';
-  if (percent <= 35) return 'Framing';
-  if (percent <= 50) return 'Roofing';
-  if (percent <= 70) return 'Exterior';
-  if (percent <= 90) return 'Interior';
-  return 'Complete';
+  for (const step of [...phase1Steps, ...phase2Steps]) {
+    if (percent >= step.range[0] && percent < step.range[1]) return step.label;
+  }
+  if (percent >= 100) return 'Complete';
+  return 'In Progress';
 }
 
-export default function ProgressHouse({ progressPercent }: ProgressHouseProps) {
+export default function ProgressHouse({ progressPercent, currentPhase, hasPhase1 = true, hasPhase2 = true }: ProgressHouseProps) {
   const p = Math.max(0, Math.min(100, progressPercent));
   const stage = getStageLabel(p);
+  const inPhase1 = currentPhase === 'phase1' || p < 50;
 
-  // Animation helpers
-  const show = (threshold: number) => p >= threshold;
-  const fadeIn = (threshold: number, delay = 0) => ({
-    initial: { opacity: 0, y: 6 },
-    animate: show(threshold)
-      ? { opacity: 1, y: 0 }
-      : { opacity: 0, y: 6 },
+  const draw = (delay = 0) => ({
+    initial: { pathLength: 0 },
+    animate: { pathLength: 1 },
+    transition: { duration: 1.2, delay, ease: 'easeInOut' },
+  });
+
+  const fadeUp = (delay = 0) => ({
+    initial: { opacity: 0, y: 8 },
+    animate: { opacity: 1, y: 0 },
     transition: { duration: 0.6, delay, ease: 'easeOut' },
+  });
+
+  const scaleIn = (delay = 0) => ({
+    initial: { opacity: 0, scale: 0 },
+    animate: { opacity: 1, scale: 1 },
+    transition: { duration: 0.5, delay, ease: [0.34, 1.56, 0.64, 1] },
   });
 
   return (
     <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6 lg:p-8">
       <div className="flex flex-col items-center">
-        {/* SVG House */}
-        <svg
-          viewBox="0 0 280 260"
-          className="w-full max-w-[320px]"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          {/* ========== GROUND ========== */}
-          <motion.rect
-            x="20" y="220" width="240" height="8" rx="4"
-            fill={LIGHT_GRAY}
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 0.5 }}
-            style={{ originX: '50%', originY: '50%' }}
-          />
-
-          {/* ========== FOUNDATION (0-15%) ========== */}
-          <motion.rect
-            x="50" y="200" width="180" height="20" rx="3"
-            fill={DARK_TEAL}
-            {...fadeIn(1)}
-          />
-          {/* Foundation texture lines */}
-          <motion.g {...fadeIn(5, 0.2)}>
-            <rect x="60" y="206" width="30" height="2" rx="1" fill={MID_TEAL} opacity={0.5} />
-            <rect x="100" y="210" width="25" height="2" rx="1" fill={MID_TEAL} opacity={0.5} />
-            <rect x="140" y="206" width="35" height="2" rx="1" fill={MID_TEAL} opacity={0.5} />
-            <rect x="185" y="210" width="30" height="2" rx="1" fill={MID_TEAL} opacity={0.5} />
-          </motion.g>
-
-          {/* ========== FRAMING (16-35%) ========== */}
-          {/* Left wall frame */}
-          <motion.rect
-            x="50" y="110" width="6" height="90" rx="2"
-            fill={DARK_TEAL}
-            {...fadeIn(16)}
-          />
-          {/* Right wall frame */}
-          <motion.rect
-            x="224" y="110" width="6" height="90" rx="2"
-            fill={DARK_TEAL}
-            {...fadeIn(16, 0.1)}
-          />
-          {/* Top beam */}
-          <motion.rect
-            x="50" y="107" width="180" height="6" rx="2"
-            fill={DARK_TEAL}
-            {...fadeIn(20, 0.2)}
-          />
-          {/* Center stud */}
-          <motion.rect
-            x="137" y="110" width="6" height="90" rx="2"
-            fill={DARK_TEAL}
-            {...fadeIn(25, 0.15)}
-          />
-          {/* Cross bracing left */}
+        {/* SVG House — Clean, minimal style */}
+        <svg viewBox="0 0 240 200" className="w-full max-w-[300px]" xmlns="http://www.w3.org/2000/svg">
+          {/* Ground line */}
           <motion.line
-            x1="56" y1="113" x2="137" y2="200"
-            stroke={DARK_TEAL} strokeWidth="2" strokeDasharray="6 3"
-            {...fadeIn(28, 0.25)}
-          />
-          {/* Cross bracing right */}
-          <motion.line
-            x1="224" y1="113" x2="143" y2="200"
-            stroke={DARK_TEAL} strokeWidth="2" strokeDasharray="6 3"
-            {...fadeIn(30, 0.3)}
+            x1="20" y1="170" x2="220" y2="170"
+            stroke={LIGHT_GRAY} strokeWidth="3" strokeLinecap="round"
+            {...draw(0)}
           />
 
-          {/* ========== ROOF (36-50%) ========== */}
-          <motion.polygon
-            points="140,45 30,110 250,110"
-            fill="none"
-            stroke={DARK_TEAL}
-            strokeWidth="5"
-            strokeLinejoin="round"
+          {/* Foundation */}
+          <motion.rect
+            x="45" y="155" width="150" height="15" rx="2"
+            fill={DARK_TEAL}
+            initial={{ scaleX: 0, opacity: 0 }}
+            animate={{ scaleX: p >= 2 ? 1 : 0, opacity: p >= 2 ? 1 : 0 }}
+            transition={{ duration: 0.7, ease: 'easeOut' }}
+            style={{ originX: '50%' }}
+          />
+
+          {/* Wall outline — draws in */}
+          <motion.rect
+            x="50" y="75" width="140" height="80" rx="2"
+            fill="none" stroke={DARK_TEAL} strokeWidth="3"
             initial={{ pathLength: 0, opacity: 0 }}
-            animate={show(36)
-              ? { pathLength: 1, opacity: 1 }
-              : { pathLength: 0, opacity: 0 }
-            }
-            transition={{ duration: 0.8, ease: 'easeOut' }}
+            animate={{ pathLength: p >= 10 ? 1 : 0, opacity: p >= 10 ? 1 : 0 }}
+            transition={{ duration: 1.2, delay: 0.2, ease: 'easeInOut' }}
           />
+
+          {/* Wall fill — fades in after outline */}
+          <motion.rect
+            x="51" y="76" width="138" height="78"
+            fill={CREAM}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: p >= 20 ? 1 : 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          />
+
+          {/* Roof outline */}
+          <motion.path
+            d="M 35 78 L 120 25 L 205 78"
+            fill="none" stroke={DARK_TEAL} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: p >= 25 ? 1 : 0, opacity: p >= 25 ? 1 : 0 }}
+            transition={{ duration: 1, delay: 0.3, ease: 'easeInOut' }}
+          />
+
           {/* Roof fill */}
           <motion.polygon
-            points="140,48 34,108 246,108"
+            points="120,28 38,76 202,76"
             fill={GOLD}
             initial={{ opacity: 0 }}
-            animate={show(42) ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          />
-          {/* Roof ridge detail */}
-          <motion.line
-            x1="140" y1="48" x2="140" y2="108"
-            stroke={DARK_TEAL} strokeWidth="2" opacity={0.3}
-            {...fadeIn(45, 0.4)}
+            animate={{ opacity: p >= 30 ? 0.9 : 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
           />
 
-          {/* ========== EXTERIOR WALLS (51-70%) ========== */}
-          {/* Left wall fill */}
-          <motion.rect
-            x="50" y="110" width="90" height="90"
-            fill={CREAM}
-            initial={{ opacity: 0, scaleY: 0 }}
-            animate={show(51)
-              ? { opacity: 1, scaleY: 1 }
-              : { opacity: 0, scaleY: 0 }
-            }
-            transition={{ duration: 0.5 }}
-            style={{ originY: '100%' }}
-          />
-          {/* Right wall fill */}
-          <motion.rect
-            x="140" y="110" width="90" height="90"
-            fill={CREAM}
-            initial={{ opacity: 0, scaleY: 0 }}
-            animate={show(55)
-              ? { opacity: 1, scaleY: 1 }
-              : { opacity: 0, scaleY: 0 }
-            }
-            transition={{ duration: 0.5, delay: 0.15 }}
-            style={{ originY: '100%' }}
-          />
-          {/* Wall border lines */}
-          <motion.rect
-            x="50" y="110" width="180" height="90"
-            fill="none"
-            stroke={DARK_TEAL} strokeWidth="3" rx="2"
-            {...fadeIn(60, 0.2)}
-          />
-          {/* Horizontal siding lines */}
-          <motion.g {...fadeIn(63, 0.3)}>
-            <line x1="52" y1="140" x2="228" y2="140" stroke={DARK_TEAL} strokeWidth="0.5" opacity={0.15} />
-            <line x1="52" y1="160" x2="228" y2="160" stroke={DARK_TEAL} strokeWidth="0.5" opacity={0.15} />
-            <line x1="52" y1="180" x2="228" y2="180" stroke={DARK_TEAL} strokeWidth="0.5" opacity={0.15} />
+          {/* Door */}
+          <motion.g {...fadeUp(0.4)}>
+            {p >= 40 && (
+              <>
+                <rect x="103" y="110" width="34" height="45" rx="2" fill={DARK_TEAL} />
+                <rect x="106" y="113" width="28" height="39" rx="1.5" fill={MID_TEAL} />
+                <motion.circle
+                  cx="129" cy="133" r="2" fill={GOLD}
+                  {...scaleIn(0.8)}
+                />
+              </>
+            )}
           </motion.g>
 
-          {/* ========== INTERIOR / WINDOWS & DOOR (71-90%) ========== */}
           {/* Left window */}
-          <motion.g {...fadeIn(71)}>
-            <rect x="70" y="135" width="35" height="30" rx="2" fill="white" stroke={DARK_TEAL} strokeWidth="2" />
-            <line x1="87.5" y1="135" x2="87.5" y2="165" stroke={DARK_TEAL} strokeWidth="1.5" />
-            <line x1="70" y1="150" x2="105" y2="150" stroke={DARK_TEAL} strokeWidth="1.5" />
-            {/* Window shine */}
-            <rect x="73" y="138" width="12" height="9" rx="1" fill={MID_TEAL} opacity={0.08} />
-          </motion.g>
+          {p >= 45 && (
+            <motion.g {...scaleIn(0.5)}>
+              <rect x="65" y="100" width="28" height="24" rx="2" fill="white" stroke={DARK_TEAL} strokeWidth="2" />
+              <line x1="79" y1="100" x2="79" y2="124" stroke={DARK_TEAL} strokeWidth="1.5" />
+              <line x1="65" y1="112" x2="93" y2="112" stroke={DARK_TEAL} strokeWidth="1.5" />
+            </motion.g>
+          )}
 
           {/* Right window */}
-          <motion.g {...fadeIn(75, 0.1)}>
-            <rect x="175" y="135" width="35" height="30" rx="2" fill="white" stroke={DARK_TEAL} strokeWidth="2" />
-            <line x1="192.5" y1="135" x2="192.5" y2="165" stroke={DARK_TEAL} strokeWidth="1.5" />
-            <line x1="175" y1="150" x2="210" y2="150" stroke={DARK_TEAL} strokeWidth="1.5" />
-            <rect x="178" y="138" width="12" height="9" rx="1" fill={MID_TEAL} opacity={0.08} />
-          </motion.g>
+          {p >= 50 && (
+            <motion.g {...scaleIn(0.6)}>
+              <rect x="147" y="100" width="28" height="24" rx="2" fill="white" stroke={DARK_TEAL} strokeWidth="2" />
+              <line x1="161" y1="100" x2="161" y2="124" stroke={DARK_TEAL} strokeWidth="1.5" />
+              <line x1="147" y1="112" x2="175" y2="112" stroke={DARK_TEAL} strokeWidth="1.5" />
+            </motion.g>
+          )}
 
-          {/* Front door */}
-          <motion.g {...fadeIn(78, 0.2)}>
-            <rect x="122" y="150" width="36" height="50" rx="3" fill={DARK_TEAL} />
-            <rect x="125" y="153" width="30" height="44" rx="2" fill={MID_TEAL} />
-            {/* Door panel details */}
-            <rect x="128" y="156" width="24" height="16" rx="1.5" fill={DARK_TEAL} opacity={0.3} />
-            <rect x="128" y="176" width="24" height="16" rx="1.5" fill={DARK_TEAL} opacity={0.3} />
-            {/* Door knob */}
-            <circle cx="149" cy="177" r="2.5" fill={GOLD} />
-          </motion.g>
+          {/* Dormer window */}
+          {p >= 60 && (
+            <motion.g {...scaleIn(0.4)}>
+              <circle cx="120" cy="55" r="9" fill="white" stroke={DARK_TEAL} strokeWidth="2" />
+              <line x1="120" y1="46" x2="120" y2="64" stroke={DARK_TEAL} strokeWidth="1" />
+              <line x1="111" y1="55" x2="129" y2="55" stroke={DARK_TEAL} strokeWidth="1" />
+            </motion.g>
+          )}
 
-          {/* Door step */}
-          <motion.rect
-            x="116" y="198" width="48" height="4" rx="2"
-            fill={DARK_TEAL} opacity={0.4}
-            {...fadeIn(80, 0.3)}
-          />
-
-          {/* Roof window / dormer */}
-          <motion.g {...fadeIn(85, 0.2)}>
-            <circle cx="140" cy="82" r="10" fill="white" stroke={DARK_TEAL} strokeWidth="2" />
-            <line x1="140" y1="72" x2="140" y2="92" stroke={DARK_TEAL} strokeWidth="1" />
-            <line x1="130" y1="82" x2="150" y2="82" stroke={DARK_TEAL} strokeWidth="1" />
-          </motion.g>
-
-          {/* ========== COMPLETE / LANDSCAPING (91-100%) ========== */}
           {/* Chimney */}
-          <motion.g {...fadeIn(91)}>
-            <rect x="190" y="50" width="16" height="35" rx="2" fill={DARK_TEAL} />
-            <rect x="187" y="47" width="22" height="5" rx="2" fill={DARK_TEAL} />
-            {/* Smoke */}
-            <motion.circle
-              cx="198" cy="38" r="4" fill={LIGHT_GRAY}
-              animate={show(93)
-                ? { cy: [38, 28], opacity: [0.6, 0], scale: [1, 1.5] }
-                : { opacity: 0 }
-              }
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
-            />
-            <motion.circle
-              cx="194" cy="35" r="3" fill={LIGHT_GRAY}
-              animate={show(93)
-                ? { cy: [35, 22], opacity: [0.4, 0], scale: [1, 1.3] }
-                : { opacity: 0 }
-              }
-              transition={{ duration: 2.5, repeat: Infinity, ease: 'easeOut', delay: 0.5 }}
-            />
-          </motion.g>
+          {p >= 75 && (
+            <motion.g {...fadeUp(0.3)}>
+              <rect x="165" y="30" width="14" height="30" rx="2" fill={DARK_TEAL} />
+              <rect x="162" y="27" width="20" height="5" rx="2" fill={DARK_TEAL} />
+              {p >= 85 && (
+                <>
+                  <motion.circle
+                    cx="172" cy="20" r="3.5" fill={LIGHT_GRAY}
+                    animate={{ cy: [20, 10], opacity: [0.5, 0], scale: [1, 1.4] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: 'easeOut' }}
+                  />
+                  <motion.circle
+                    cx="169" cy="17" r="2.5" fill={LIGHT_GRAY}
+                    animate={{ cy: [17, 5], opacity: [0.3, 0], scale: [1, 1.2] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'easeOut', delay: 0.7 }}
+                  />
+                </>
+              )}
+            </motion.g>
+          )}
 
-          {/* Left bush */}
-          <motion.g {...fadeIn(92, 0.1)}>
-            <ellipse cx="35" cy="215" rx="15" ry="10" fill={MID_TEAL} opacity={0.6} />
-            <ellipse cx="30" cy="212" rx="10" ry="8" fill={MID_TEAL} opacity={0.4} />
-          </motion.g>
-
-          {/* Right bush */}
-          <motion.g {...fadeIn(93, 0.2)}>
-            <ellipse cx="248" cy="215" rx="14" ry="9" fill={MID_TEAL} opacity={0.6} />
-            <ellipse cx="253" cy="212" rx="10" ry="8" fill={MID_TEAL} opacity={0.4} />
-          </motion.g>
+          {/* Landscaping */}
+          {p >= 90 && (
+            <>
+              <motion.ellipse cx="35" cy="167" rx="12" ry="8" fill={MID_TEAL} opacity={0.5} {...scaleIn(0.2)} />
+              <motion.ellipse cx="205" cy="167" rx="11" ry="7" fill={MID_TEAL} opacity={0.5} {...scaleIn(0.3)} />
+            </>
+          )}
 
           {/* Path to door */}
-          <motion.path
-            d="M 128 228 Q 132 235 140 250 Q 148 235 152 228"
-            fill={LIGHT_GRAY}
-            stroke={DARK_TEAL} strokeWidth="0.5" opacity={0.4}
-            {...fadeIn(95, 0.3)}
-          />
+          {p >= 92 && (
+            <motion.path
+              d="M 112 170 Q 116 178 120 190 Q 124 178 128 170"
+              fill={LIGHT_GRAY} opacity={0.5}
+              {...fadeUp(0.2)}
+            />
+          )}
 
-          {/* Left flower */}
-          <motion.g {...fadeIn(96, 0.2)}>
-            <line x1="60" y1="220" x2="60" y2="210" stroke={MID_TEAL} strokeWidth="1.5" />
-            <circle cx="60" cy="208" r="3" fill={GOLD} />
-            <circle cx="56" cy="210" r="2.5" fill={GOLD} opacity={0.7} />
-            <circle cx="64" cy="210" r="2.5" fill={GOLD} opacity={0.7} />
-          </motion.g>
-
-          {/* Right flower */}
-          <motion.g {...fadeIn(97, 0.3)}>
-            <line x1="220" y1="220" x2="220" y2="210" stroke={MID_TEAL} strokeWidth="1.5" />
-            <circle cx="220" cy="208" r="3" fill={GOLD} />
-            <circle cx="216" cy="210" r="2.5" fill={GOLD} opacity={0.7} />
-            <circle cx="224" cy="210" r="2.5" fill={GOLD} opacity={0.7} />
-          </motion.g>
-
-          {/* Completion sparkle */}
-          {show(100) && (
+          {/* Completion star burst */}
+          {p >= 100 && (
             <motion.g
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: [0, 1, 0], scale: [0.5, 1.2, 0.5] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              initial={{ opacity: 0, scale: 0, rotate: -30 }}
+              animate={{ opacity: [0, 1, 0.8], scale: [0.3, 1.1, 1], rotate: [0, 10, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' }}
+              style={{ originX: '120px', originY: '10px' }}
             >
               <polygon
-                points="140,20 143,28 152,28 145,33 148,42 140,37 132,42 135,33 128,28 137,28"
+                points="120,2 123,10 131,10 124,15 127,23 120,18 113,23 116,15 109,10 117,10"
                 fill={GOLD}
               />
             </motion.g>
           )}
         </svg>
 
-        {/* Progress bar and label */}
-        <div className="w-full max-w-[320px] mt-6 space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-semibold text-brand-dark-teal">{stage}</span>
-            <span className="text-sm font-display text-brand-gold">{p}%</span>
-          </div>
-          <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
-            <motion.div
-              className="h-full rounded-full"
-              style={{
-                background: `linear-gradient(90deg, ${DARK_TEAL} 0%, ${MID_TEAL} 50%, ${GOLD} 100%)`,
-              }}
-              initial={{ width: 0 }}
-              animate={{ width: `${p}%` }}
-              transition={{ duration: 1, ease: 'easeOut' }}
-            />
-          </div>
-          <div className="flex justify-between text-[10px] text-brand-slate/30 font-medium uppercase tracking-wider">
-            <span>Foundation</span>
-            <span>Framing</span>
-            <span>Roof</span>
-            <span>Exterior</span>
-            <span>Interior</span>
-            <span>Done</span>
-          </div>
+        {/* Stage label */}
+        <div className="w-full max-w-[300px] mt-4 mb-2 flex items-center justify-between">
+          <span className="text-sm font-semibold text-brand-dark-teal">{stage}</span>
+          <span className="text-sm font-display text-brand-gold">{p}%</span>
+        </div>
+
+        {/* Phase Progress Bars */}
+        <div className="w-full max-w-[300px] space-y-4">
+          {/* Phase 1 */}
+          {hasPhase1 && (
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <span className={`text-xs font-semibold uppercase tracking-wider ${
+                  inPhase1 ? 'text-brand-dark-teal' : 'text-brand-slate/30'
+                }`}>
+                  Phase 1 — Design & Permits
+                </span>
+                <span className={`text-[10px] font-medium ${
+                  p >= 50 ? 'text-emerald-500' : 'text-brand-slate/30'
+                }`}>
+                  {p >= 50 ? 'Complete' : `${Math.round(Math.min(p / 50 * 100, 100))}%`}
+                </span>
+              </div>
+              <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                <motion.div
+                  className="h-full rounded-full"
+                  style={{ background: `linear-gradient(90deg, ${DARK_TEAL}, ${MID_TEAL})` }}
+                  initial={{ width: 0 }}
+                  animate={{ width: `${Math.min(p / 50 * 100, 100)}%` }}
+                  transition={{ duration: 1, ease: 'easeOut' }}
+                />
+              </div>
+              <div className="flex justify-between mt-1">
+                {phase1Steps.map((step, i) => (
+                  <span key={i} className={`text-[8px] tracking-wide ${
+                    p >= step.range[0] ? 'text-brand-dark-teal/60' : 'text-brand-slate/20'
+                  }`}>
+                    {step.label.split(' ')[0]}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Phase 2 */}
+          {hasPhase2 && (
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <span className={`text-xs font-semibold uppercase tracking-wider ${
+                  !inPhase1 && p < 100 ? 'text-brand-dark-teal' : p >= 100 ? 'text-emerald-600' : 'text-brand-slate/30'
+                }`}>
+                  Phase 2 — Construction
+                </span>
+                <span className={`text-[10px] font-medium ${
+                  p >= 100 ? 'text-emerald-500' : p > 50 ? 'text-brand-gold' : 'text-brand-slate/30'
+                }`}>
+                  {p >= 100 ? 'Complete' : p <= 50 ? 'Upcoming' : `${Math.round(((p - 50) / 50) * 100)}%`}
+                </span>
+              </div>
+              <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                <motion.div
+                  className="h-full rounded-full"
+                  style={{ background: `linear-gradient(90deg, ${MID_TEAL}, ${GOLD})` }}
+                  initial={{ width: 0 }}
+                  animate={{ width: `${Math.max(0, Math.min(((p - 50) / 50) * 100, 100))}%` }}
+                  transition={{ duration: 1, ease: 'easeOut', delay: 0.2 }}
+                />
+              </div>
+              <div className="flex justify-between mt-1">
+                {phase2Steps.filter((_, i) => i % 2 === 0 || i === phase2Steps.length - 1).map((step, i) => (
+                  <span key={i} className={`text-[8px] tracking-wide ${
+                    p >= step.range[0] ? 'text-brand-dark-teal/60' : 'text-brand-slate/20'
+                  }`}>
+                    {step.label.split(' ')[0]}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

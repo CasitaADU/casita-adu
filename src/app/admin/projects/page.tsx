@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Plus, Pencil, Send, X, ChevronDown } from 'lucide-react';
+import { Plus, Pencil, Send, X, ChevronDown, Eye, MapPin, DollarSign } from 'lucide-react';
+import Link from 'next/link';
 import toast from 'react-hot-toast';
 import type { ActiveProject, ProgressUpdate } from '@/types';
 
@@ -60,14 +61,24 @@ export default function AdminProjects() {
 
       <div className="space-y-4">
         {projects.map(p => (
-          <div key={p.id} className="bg-white rounded-2xl border border-gray-100 p-6">
+          <div key={p.id} className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-md transition-shadow">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
-                  <h3 className="font-semibold text-brand-dark-teal text-lg">{p.title}</h3>
+                  <Link href={`/admin/projects/${p.id}`} className="font-semibold text-brand-dark-teal text-lg hover:underline">{p.title}</Link>
                   <span className={`text-xs font-medium px-2.5 py-1 rounded-lg border phase-${p.status} capitalize`}>{p.status}</span>
+                  {p.current_phase && (
+                    <span className="text-[10px] font-medium px-2 py-0.5 rounded bg-brand-gold/10 text-brand-gold uppercase tracking-wide">
+                      {p.current_phase === 'phase2' ? 'Phase 2' : 'Phase 1'}
+                    </span>
+                  )}
                 </div>
-                <p className="text-sm text-brand-slate/50">{p.address}</p>
+                <p className="text-sm text-brand-slate/50 flex items-center gap-1"><MapPin className="w-3 h-3" />{p.address}</p>
+                <div className="flex items-center gap-4 mt-2">
+                  {p.pm_name && <span className="text-xs text-brand-slate/40">PM: <strong className="text-brand-slate/60">{p.pm_name}</strong></span>}
+                  {p.builder_name && <span className="text-xs text-brand-slate/40">Builder: <strong className="text-brand-slate/60">{p.builder_name}</strong></span>}
+                  {(p.total_contract ?? 0) > 0 && <span className="text-xs text-brand-slate/40 flex items-center gap-0.5"><DollarSign className="w-3 h-3" />{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(p.total_contract || 0)}</span>}
+                </div>
                 <div className="mt-3 flex items-center gap-2">
                   <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden max-w-xs">
                     <div className="h-full bg-brand-mid-teal rounded-full transition-all" style={{ width: `${p.progress_percent}%` }} />
@@ -76,8 +87,11 @@ export default function AdminProjects() {
                 </div>
               </div>
               <div className="flex gap-2">
+                <Link href={`/admin/projects/${p.id}`} className="flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-lg bg-brand-dark-teal/5 text-brand-dark-teal hover:bg-brand-dark-teal/10 transition-colors">
+                  <Eye className="w-3 h-3" />View
+                </Link>
                 <button onClick={() => setUpdateModal({ projectId: p.id, projectTitle: p.title })} className="flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-lg bg-brand-gold/10 text-brand-gold hover:bg-brand-gold/20 transition-colors">
-                  <Send className="w-3 h-3" />Send Update
+                  <Send className="w-3 h-3" />Update
                 </button>
                 <button onClick={() => setEditing(p)} className="flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-lg bg-gray-50 hover:bg-gray-100">
                   <Pencil className="w-3 h-3" />Edit

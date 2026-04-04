@@ -349,8 +349,86 @@ export default function AdminProjectDetail() {
                 <input type="number" className="input-field" value={editProject.bathrooms || ''} onChange={e => setEditProject(p => ({ ...p, bathrooms: +e.target.value }))} />
               </div>
               <div>
+                <label className="label">Nickname</label>
+                <input className="input-field" value={editProject.nickname || ''} onChange={e => setEditProject(p => ({ ...p, nickname: e.target.value }))} placeholder="e.g., Daxi Way" />
+              </div>
+            </div>
+
+            {/* Phase Tracking */}
+            <h3 className="font-display text-lg text-brand-dark-teal pt-2">Phase Tracking</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div>
+                <label className="label">Current Phase</label>
+                <select className="input-field" value={editProject.current_phase || 'phase1'} onChange={e => setEditProject(p => ({ ...p, current_phase: e.target.value }))}>
+                  <option value="phase1">Phase 1 - Design & Permits</option>
+                  <option value="phase2">Phase 2 - Construction</option>
+                </select>
+              </div>
+              <div>
+                <label className="label">Phase 1 Cost</label>
+                <input type="number" className="input-field" value={editProject.phase1_cost || ''} onChange={e => setEditProject(p => ({ ...p, phase1_cost: +e.target.value }))} />
+              </div>
+              <div className="flex items-center gap-3 pt-6">
+                <label className="flex items-center gap-2 text-sm cursor-pointer">
+                  <input type="checkbox" checked={editProject.has_phase1 ?? true} onChange={e => setEditProject(p => ({ ...p, has_phase1: e.target.checked }))} className="rounded border-gray-300 text-brand-dark-teal focus:ring-brand-dark-teal" />
+                  Has Phase 1
+                </label>
+              </div>
+              <div className="flex items-center gap-3 pt-6">
+                <label className="flex items-center gap-2 text-sm cursor-pointer">
+                  <input type="checkbox" checked={editProject.has_phase2 ?? true} onChange={e => setEditProject(p => ({ ...p, has_phase2: e.target.checked }))} className="rounded border-gray-300 text-brand-dark-teal focus:ring-brand-dark-teal" />
+                  Has Phase 2
+                </label>
+              </div>
+            </div>
+
+            {/* Financials */}
+            <h3 className="font-display text-lg text-brand-dark-teal pt-2">Financials</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div>
+                <label className="label">Client Budget</label>
+                <input type="number" className="input-field" value={editProject.client_budget || ''} onChange={e => setEditProject(p => ({ ...p, client_budget: +e.target.value }))} />
+              </div>
+              <div>
+                <label className="label">Builder Proposal</label>
+                <input type="number" className="input-field" value={editProject.builder_proposal || ''} onChange={e => setEditProject(p => ({ ...p, builder_proposal: +e.target.value }))} />
+              </div>
+              <div>
                 <label className="label">Total Contract</label>
                 <input type="number" className="input-field" value={editProject.total_contract || ''} onChange={e => setEditProject(p => ({ ...p, total_contract: +e.target.value }))} />
+              </div>
+              <div>
+                <label className="label">Casita Margin %</label>
+                <input type="number" className="input-field" value={editProject.casita_margin_pct || ''} onChange={e => setEditProject(p => ({ ...p, casita_margin_pct: +e.target.value }))} />
+              </div>
+              <div>
+                <label className="label">Casita Fee ($)</label>
+                <input type="number" className="input-field" value={editProject.casita_fee || ''} onChange={e => setEditProject(p => ({ ...p, casita_fee: +e.target.value }))} />
+              </div>
+              <div>
+                <label className="label">Total Investment</label>
+                <input type="number" className="input-field" value={editProject.total_investment || ''} onChange={e => setEditProject(p => ({ ...p, total_investment: +e.target.value }))} />
+              </div>
+              <div>
+                <label className="label">Amount Billed</label>
+                <input type="number" className="input-field" value={editProject.amount_billed || ''} onChange={e => setEditProject(p => ({ ...p, amount_billed: +e.target.value }))} />
+              </div>
+              <div>
+                <label className="label">Balance Remaining</label>
+                <input type="number" className="input-field" value={editProject.balance_remaining || ''} onChange={e => setEditProject(p => ({ ...p, balance_remaining: +e.target.value }))} />
+              </div>
+            </div>
+
+            {/* Builder & PM */}
+            <h3 className="font-display text-lg text-brand-dark-teal pt-2">Builder & Project Manager</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="label">Builder Name</label>
+                <input className="input-field" value={editProject.builder_name || ''} onChange={e => setEditProject(p => ({ ...p, builder_name: e.target.value }))} placeholder="e.g., Encas" />
+              </div>
+              <div>
+                <label className="label">Project Manager</label>
+                <input className="input-field" value={editProject.pm_name || ''} onChange={e => setEditProject(p => ({ ...p, pm_name: e.target.value }))} placeholder="e.g., Francisco" />
               </div>
             </div>
 
@@ -388,10 +466,27 @@ export default function AdminProjectDetail() {
               )}
             </div>
 
+            {/* Financial summary */}
+            <div className="bg-white rounded-2xl border border-gray-100 p-6">
+              <h3 className="font-display text-lg text-brand-dark-teal mb-4 flex items-center gap-2"><DollarSign className="w-5 h-5" />Financial Summary</h3>
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between"><span className="text-brand-slate/50">Total Contract</span><span className="font-medium">{formatCurrency(project.total_contract || 0)}</span></div>
+                <div className="flex justify-between"><span className="text-brand-slate/50">Amount Billed</span><span className="font-medium text-emerald-600">{formatCurrency(project.amount_billed || 0)}</span></div>
+                <div className="flex justify-between"><span className="text-brand-slate/50">Balance Remaining</span><span className="font-medium text-brand-gold">{formatCurrency(project.balance_remaining || 0)}</span></div>
+                <div className="border-t border-gray-100 my-2" />
+                <div className="flex justify-between"><span className="text-brand-slate/50">Casita Fee</span><span className="font-medium">{formatCurrency(project.casita_fee || 0)}</span></div>
+                <div className="flex justify-between"><span className="text-brand-slate/50">Casita Margin</span><span className="font-medium">{project.casita_margin_pct || 0}%</span></div>
+              </div>
+            </div>
+
             {/* Quick stats */}
             <div className="bg-white rounded-2xl border border-gray-100 p-6">
               <h3 className="font-display text-lg text-brand-dark-teal mb-4">Quick Stats</h3>
               <div className="space-y-3 text-sm">
+                <div className="flex justify-between"><span className="text-brand-slate/50">Phase</span><span className="font-medium capitalize">{project.current_phase === 'phase2' ? 'Phase 2 - Construction' : 'Phase 1 - Design'}</span></div>
+                <div className="flex justify-between"><span className="text-brand-slate/50">Builder</span><span className="font-medium">{project.builder_name || '--'}</span></div>
+                <div className="flex justify-between"><span className="text-brand-slate/50">PM</span><span className="font-medium">{project.pm_name || '--'}</span></div>
+                <div className="border-t border-gray-100 my-2" />
                 <div className="flex justify-between"><span className="text-brand-slate/50">Updates</span><span className="font-medium">{updates.length}</span></div>
                 <div className="flex justify-between"><span className="text-brand-slate/50">Team Members</span><span className="font-medium">{teamMembers.length}</span></div>
                 <div className="flex justify-between"><span className="text-brand-slate/50">Documents</span><span className="font-medium">{documents.length}</span></div>

@@ -239,7 +239,39 @@ export default function ProjectInfoHeader({ projectId }: ProjectInfoHeaderProps)
               </div>
             )}
 
-            {!contractor && !pm && (
+            {/* Fallback to project-level builder/PM names */}
+            {!contractor && !pm && (project.builder_name || project.pm_name) && (
+              <>
+                {project.builder_name && (
+                  <div className="rounded-xl border border-gray-100 p-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-brand-gold/10 flex items-center justify-center">
+                        <Building2 className="w-4 h-4 text-brand-gold" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-sm text-brand-dark-teal">{project.builder_name}</p>
+                        <p className="text-xs text-brand-slate/40">Builder</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {project.pm_name && (
+                  <div className="rounded-xl border border-gray-100 p-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-brand-mid-teal/10 flex items-center justify-center">
+                        <User className="w-4 h-4 text-brand-mid-teal" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-sm text-brand-dark-teal">{project.pm_name}</p>
+                        <p className="text-xs text-brand-slate/40">Project Manager</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+
+            {!contractor && !pm && !project.builder_name && !project.pm_name && (
               <div className="rounded-xl border border-dashed border-gray-200 p-6 text-center">
                 <User className="w-8 h-8 text-brand-slate/20 mx-auto mb-2" />
                 <p className="text-xs text-brand-slate/40">Team members will appear here once assigned.</p>

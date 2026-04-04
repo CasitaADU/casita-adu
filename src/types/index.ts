@@ -49,6 +49,23 @@ export interface ActiveProject {
   bedrooms?: number;
   bathrooms?: number;
   build_type?: string;
+  // Phase tracking
+  current_phase?: string;
+  has_phase1?: boolean;
+  has_phase2?: boolean;
+  phase1_cost?: number;
+  // Financial
+  client_budget?: number;
+  builder_proposal?: number;
+  casita_margin_pct?: number;
+  casita_fee?: number;
+  total_investment?: number;
+  amount_billed?: number;
+  balance_remaining?: number;
+  // Team references
+  builder_name?: string;
+  pm_name?: string;
+  nickname?: string;
   created_at: string;
   updated_at: string;
 }
@@ -156,6 +173,7 @@ export interface PaymentMilestone {
   status: 'upcoming' | 'due' | 'paid' | 'overdue';
   paid_date?: string;
   sort_order: number;
+  phase?: string;
   created_at: string;
   updated_at: string;
 }
